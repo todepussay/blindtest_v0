@@ -1,5 +1,5 @@
 <?php
-e
+2test
 try {
     $connect = new PDO('mysql:host=localhost;dbname=blindtest', 'root', '');
     $connect->query('SET NAMES UTF8');
