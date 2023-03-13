@@ -1,9 +1,5 @@
 <?php
-<<<<<<< HEAD
-e
-=======
-eee
->>>>>>> a49d7adaa6fbc7e3b77f1f90ca618ea87a5c467b
+test
 session_start();
 
 if(!isset($_SESSION['id']) && !isset($_SESSION['invite'])) {
