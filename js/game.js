@@ -39,6 +39,8 @@ window.onload = function(){
     document.getElementById('input-sup2').remove();
 
     document.getElementById('input-sup').remove();
+
+    console.log(sound_array);
 }
 
 function keyboard(){
@@ -117,6 +119,7 @@ function li_proposition(valeur){
             try_bonus2 = true;
         }
     }
+    input.focus();
 }
 
 function good_answer(){
@@ -129,7 +132,7 @@ function good_answer(){
         clearInterval(interval_good);
     }, 400);
     if (question_current == 0){
-        document.getElementById('answer_origine').innerHTML = sound_array[round-1][1] + " ✔️ +1";
+        document.getElementById('answer_origine').innerHTML = sound_array[round-1][1] + " ✅ +1";
         score++;
         input.value = "";
         document.getElementById('proposition').innerHTML = "";
@@ -140,7 +143,7 @@ function good_answer(){
         question_current++;
     }
     if (question_current == 1 && input.value == sound_array[round-1][3] && try_bonus1 == false){
-        document.getElementById('answer_number').innerHTML = sound_array[round-1][3] + " ✔️ +2";
+        document.getElementById('answer_number').innerHTML = sound_array[round-1][3] + " ✅ +2";
         score += 2;
         input.value = "";
         document.getElementById('proposition').innerHTML = "";
@@ -148,7 +151,7 @@ function good_answer(){
         document.getElementById('proposition').style.display = 'none';
     }
     if (question_current == 1 && input.value == sound_array[round-1][2] && try_bonus2 == false){    
-        document.getElementById('answer_title').innerHTML = sound_array[round-1][2] + " ✔️ +2";
+        document.getElementById('answer_title').innerHTML = sound_array[round-1][2] + " ✅ +2";
         score += 2;
         input.value = "";
         document.getElementById('proposition').innerHTML = "";
@@ -257,24 +260,21 @@ document.getElementById('btn-begin').onclick = function() {
 }
 
 function change_volume() {
-    document.getElementById('del').style.display = 'none';
-    document.getElementById('volume-ico-on').style.display = 'none';
-    document.getElementById('volume-box').style.display = 'block';
-    // if (volume_mute == 0){
-    //     console.log('mute');
-    //     document.getElementById('volume-ico-on').style.display = 'none';
-    //     document.getElementById('volume-ico-off').style.display = 'block';
-    //     volume_mute = 1;
-    //     audio.volume = 0;
-    // } else {
-    //     if (volume_mute == 1){
-    //         console.log('unmute');
-    //         document.getElementById('volume-ico-off').style.display = 'none';
-    //         document.getElementById('volume-ico-on').style.display = 'block';
-    //         volume_mute = 0;
-    //         audio.volume = 1;
-    //     }
-    // }
+    if (volume_mute == 0){
+        console.log('mute');
+        document.getElementById('volume-ico-on').style.display = 'none';
+        document.getElementById('volume-ico-off').style.display = 'block';
+        volume_mute = 1;
+        audio.volume = 0;
+    } else {
+        if (volume_mute == 1){
+            console.log('unmute');
+            document.getElementById('volume-ico-off').style.display = 'none';
+            document.getElementById('volume-ico-on').style.display = 'block';
+            volume_mute = 0;
+            audio.volume = 1;
+        }
+    }
 }
 
 document.getElementById('skip').onclick = function(){

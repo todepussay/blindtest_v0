@@ -123,10 +123,7 @@ $title_sound_array = $title_sound->fetchAll();
                     <input autocomplete="off" placeholder="Saisir votre proposition" type="search" name="search" onkeyup="keyboard()" id="search">
                     <ion-icon id="del" name="close-outline"></ion-icon>
                     <ion-icon id="volume-ico-on" name="volume-high-outline" onclick="change_volume()"></ion-icon>
-                    <div id="volume-box">
-                        <input type="range" min="0" max="1" step="0.05" value="1" id="volume" oninput="change_volume()">
-                    </div>
-                    <!-- <ion-icon id="volume-ico-off"name="volume-mute-outline" onclick="change_volume()"></ion-icon> -->
+                    <ion-icon id="volume-ico-off"name="volume-mute-outline" onclick="change_volume()"></ion-icon>
                 </div>
                 
                 <ul class="proposition" id="proposition">
