@@ -197,7 +197,7 @@ function startInterval() {
                     document.getElementById('btn-begin').innerHTML = "Terminer";
                     document.getElementById('title-begin').innerHTML = "Fin du jeu ! <br><br>" + document.getElementById('title-begin').innerHTML;
                 }
-                if (volume_mute != 0){
+                if (volume_mute == 0){
                     let interval_audio = setInterval(() => {
                         audio.volume -= audio.volume * 0.1;
                         if (audio.volume <= 0.05){

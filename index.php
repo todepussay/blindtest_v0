@@ -40,7 +40,7 @@ $table = $sql->fetchAll();
                     <label for="categorie">Choisissez une categorie :</label><br>
                     <select name="categorie" id="categorie" require onclick="change_categorie()">
                         <option value="-2" selected disabled hidden>-- Catégorie --</option>
-                        <option value="-1">Tout</option>
+                        <!-- <option value="-1">Tout</option> -->
                         <?php foreach($table as $category): ?>
                             <option value="<?= $category['id']; ?>"><?= ucfirst($category['name']); ?></option>
                         <?php endforeach; ?>
@@ -103,6 +103,12 @@ $table = $sql->fetchAll();
 
                     </div>
                 </div>
+
+
+
+                <!-- Number Range -->
+
+                
 
                 <div id="range-input">
                     <input min="10" class="range" type="range" name="number" id="number">

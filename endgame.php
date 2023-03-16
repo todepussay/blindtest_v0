@@ -167,13 +167,17 @@ if (!isset($_SESSION['id'])) {
             <?php if(isset($_SESSION['invite']) && !isset($_SESSION['id'])): ?>
                 <p>Vous avez un score de <strong><?= $_POST['score'] ?></strong>.</p>
                 <p>Malheureusement vous n'êtes pas connecté votre score ne sera pas sauvegarder.</p>
-                <p><a href="login.php">Connectez-vous</a> pour sauvegarder votre score.</p>
             <?php else: ?>
                 <p>Vous avez un score de <strong><?= $_POST['score'] ?></strong>.</p>
                 <p>Votre score a été sauvegarder.</p>
             <?php endif; ?>
 
-            <a href="index.php" class="btn">Retour</a>
+            <div class="wrap">
+                <?php if(isset($_SESSION['invite']) && !isset($_SESSION['id'])): ?>
+                    <a href="login.php" class="btn highlight">Se connecter</a>
+                <?php endif; ?>
+                <a href="index.php" class="btn">Retour</a>
+            </div>
 
         </div>
     </div>

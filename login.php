@@ -21,6 +21,7 @@ if (isset($_SESSION['id'])){
                 $_SESSION['id'] = $table[0]['id'];
                 $_SESSION['username'] = $table[0]['username'];
                 $_SESSION['email'] = $table[0]['email'];
+                $_SESSION['admin'] = $table[0]['admin'];
 
                 if (isset($_SESSION['invite'])){
                     $sql_score = "SELECT * FROM score_invite WHERE invite_id = :invite";
