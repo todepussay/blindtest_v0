@@ -193,11 +193,11 @@ function startInterval() {
                 document.getElementById('volume-ico-on').style.zIndex = "-1";
                 document.getElementById('volume-ico-off').style.zIndex = "-1";
                 document.getElementById('del').style.zIndex = '-1';
-                if (round == max_sound){
+                if (round >= max_sound){
                     document.getElementById('btn-begin').innerHTML = "Terminer";
                     document.getElementById('title-begin').innerHTML = "Fin du jeu ! <br><br>" + document.getElementById('title-begin').innerHTML;
                 }
-                if (volume_mute == 0){
+                if (volume_mute != 0){
                     let interval_audio = setInterval(() => {
                         audio.volume -= audio.volume * 0.1;
                         if (audio.volume <= 0.05){
@@ -238,7 +238,7 @@ document.getElementById('btn-begin').onclick = function() {
             document.getElementById('question-bonus1').style.display = "none";
             document.getElementById('question-bonus2').style.display = "none";
             round++;
-            if (round == max_sound+1){
+            if (round > max_sound){
                 document.getElementById('score_input').value = score;
                 document.getElementById('form').submit();
             }

@@ -2,8 +2,6 @@
 
 session_start();
 
-echo $_SESSION['invite'];
-
 require('connect.php');
 
 $sql = $connect->prepare('SELECT * FROM categories');
