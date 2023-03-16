@@ -12,34 +12,101 @@ if (!isset($_POST['categorie']) || !isset($_POST['score'])) {
 
 require "connect.php";
 
-$sql = "INSERT INTO  score_invite (invite_id, categorie_id, score, len, parameters) VALUES (:user_id, :categorie_id, :score, :len, :parameters    )";
-$sql = $connect->prepare($sql);
 
-$sql->bindParam(':user_id', $_SESSION['invite']);
-$sql->bindParam(':categorie_id', $_POST['categorie']);
-$sql->bindParam(':score', $_POST['score']);
-$sql->bindParam(':len', $_POST['number']);
 
-$parameters = "";
+if (!isset($_SESSION['id'])) {
 
-if ($_POST['all'] == 1){
-    $parameters .= "all,";
-}
-if ($_POST['top100'] == 1){
-    $parameters .= "top100,";
-}
-if ($_POST['premier'] == 1){
-    $parameters .= "premier,";
-}
-if ($_POST['av2000'] == 1){
-    $parameters .= "av2000,";
-}
-if ($_POST['ap2000'] == 1){
-    $parameters .= "ap2000,";
-}
+    $sql_select = "SELECT * FROM score_invite WHERE invite_id = :invite_id AND categorie_id = :categorie_id AND score = :score AND len = :len AND parameters = :parameters";
+    $sql = $connect->prepare($sql_select);
+    $sql->bindParam(':invite_id', $_SESSION['invite']);
+    $sql->bindParam(':categorie_id', $_POST['categorie']);
+    $sql->bindParam(':score', $_POST['score']);
+    $sql->bindParam(':len', $_POST['number']);
 
-$sql->bindParam(':parameters', $parameters);
-$sql->execute();
+    $parameters_select = "";
+
+    if ($_POST['all'] == 1){
+        $parameters_select .= "all,";
+    }
+    if ($_POST['top100'] == 1){
+        $parameters_select .= "top100,";
+    }
+    if ($_POST['premier'] == 1){
+        $parameters_select .= "premier,";
+    }
+    if ($_POST['av2000'] == 1){
+        $parameters_select .= "av2000,";
+    }
+    if ($_POST['ap2000'] == 1){
+        $parameters_select .= "ap2000,";
+    }
+
+    $sql_select->bindParam(':parameters', $parameters_select);
+    $sql_select->execute();
+
+
+    $sql = "INSERT INTO  score_invite (invite_id, categorie_id, score, len, parameters) VALUES (:invite_id, :categorie_id, :score, :len, :parameters    )";
+
+    $sql = $connect->prepare($sql);
+
+    $sql->bindParam(':invite_id', $_SESSION['invite']);
+    $sql->bindParam(':categorie_id', $_POST['categorie']);
+    $sql->bindParam(':score', $_POST['score']);
+    $sql->bindParam(':len', $_POST['number']);
+
+    $parameters = "";
+
+    if ($_POST['all'] == 1){
+        $parameters .= "all,";
+    }
+    if ($_POST['top100'] == 1){
+        $parameters .= "top100,";
+    }
+    if ($_POST['premier'] == 1){
+        $parameters .= "premier,";
+    }
+    if ($_POST['av2000'] == 1){
+        $parameters .= "av2000,";
+    }
+    if ($_POST['ap2000'] == 1){
+        $parameters .= "ap2000,";
+    }
+
+    $sql->bindParam(':parameters', $parameters);
+    $sql->execute();
+
+} else {
+
+    $sql = "INSERT INTO  score (user_id, categorie_id, score, len, parameters) VALUES (:invite_id, :categorie_id, :score, :len, :parameters    )";
+
+    $sql = $connect->prepare($sql);
+
+    $sql->bindParam(':user_id', $_SESSION['id']);
+    $sql->bindParam(':categorie_id', $_POST['categorie']);
+    $sql->bindParam(':score', $_POST['score']);
+    $sql->bindParam(':len', $_POST['number']);
+
+    $parameters = "";
+
+    if ($_POST['all'] == 1){
+        $parameters .= "all,";
+    }
+    if ($_POST['top100'] == 1){
+        $parameters .= "top100,";
+    }
+    if ($_POST['premier'] == 1){
+        $parameters .= "premier,";
+    }
+    if ($_POST['av2000'] == 1){
+        $parameters .= "av2000,";
+    }
+    if ($_POST['ap2000'] == 1){
+        $parameters .= "ap2000,";
+    }
+
+    $sql->bindParam(':parameters', $parameters);
+    $sql->execute();
+}
 
 ?>
 
