@@ -7,13 +7,13 @@
     </div>
 
     <div class="right">
-        <?php if(isset($_SESSION['id']) || isset($_SESSION['invite'])): ?>
-            <?php if(!isset($_SESSION['invite'])) : ?>
-                <a href="profile.php" class="btn"><ion-icon name="person-outline"></ion-icon></a>
-            <?php endif; ?>
-        <a href="logout.php" class="btn"><ion-icon name="log-out-outline"></ion-icon></a>
+
+        <?php if(isset($_SESSION['id'])): ?>
+            <a href="profile.php" class="btn"><ion-icon name="person-outline"></ion-icon></a>
+            <a href="logout.php" class="btn"><ion-icon name="log-out-outline"></ion-icon></a>
         <?php else : ?>
-        <a href="login.php" class="btn"><ion-icon name="person-outline"></ion-icon></a>
+            <a href="login.php" class="btn"><ion-icon name="person-outline"></ion-icon></a>
         <?php endif; ?>
+
     </div>
 </header>

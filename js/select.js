@@ -4,7 +4,9 @@ let range = document.getElementById('number')
 let range_display = document.getElementById('range-value')
 
 window.onload = function() {
-    range.value = 10;
+    if (range != undefined){
+        range.value = 10;
+    }
 }
 
 function change_categorie(){
@@ -42,10 +44,12 @@ function select_checkbox(checkbox) {
     }
 }
 
+if (range != undefined){
+    range.addEventListener('input', function(){
+        range_display.innerHTML = range.value;
+    })
+}
 
-range.addEventListener('input', function(){
-    range_display.innerHTML = range.value;
-})
 
 // function display_submit(){
     
