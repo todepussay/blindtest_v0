@@ -81,12 +81,12 @@ if (!isset($_SESSION['id'])) {
 
 } else {
 
-    $sql_select = "SELECT id FROM score_invite WHERE invite_id = :invite_id AND categorie_id = :categorie_id AND score = :score AND len = :len AND parameters = :parameters";
-    $sql_select = $connect->prepare($sql_select);
-    $sql_select->bindParam(':invite_id', $_SESSION['invite']);
-    $sql_select->bindParam(':categorie_id', $_POST['categorie']);
-    $sql_select->bindParam(':score', $_POST['score']);
-    $sql_select->bindParam(':len', $_POST['number']);
+    $sql_user_select = "SELECT id FROM score WHERE user_id = :user_id AND categorie_id = :categorie_id AND score = :score AND len = :len AND parameters = :parameters";
+    $sql_user_select = $connect->prepare($sql_user_select);
+    $sql_user_select->bindParam(':user_id', $_SESSION['id']);
+    $sql_user_select->bindParam(':categorie_id', $_POST['categorie']);
+    $sql_user_select->bindParam(':score', $_POST['score']);
+    $sql_user_select->bindParam(':len', $_POST['number']);
 
     $parameters_select = "";
 
@@ -106,20 +106,20 @@ if (!isset($_SESSION['id'])) {
         $parameters_select .= "ap2000,";
     }
 
-    $sql_select->bindParam(':parameters', $parameters_select);
-    $sql_select->execute();
-    $result = $sql_select->fetchAll();
+    $sql_user_select->bindParam(':parameters', $parameters_select);
+    $sql_user_select->execute();
+    $result = $sql_user_select->fetchAll();
 
     if (count($result) == 0){
 
-        $sql = "INSERT INTO  score (user_id, categorie_id, score, len, parameters) VALUES (:invite_id, :categorie_id, :score, :len, :parameters    )";
+        $sql_user = "INSERT INTO  score (user_id, categorie_id, score, len, parameters) VALUES (:user_id, :categorie_id, :score, :len, :parameters)";
 
-        $sql = $connect->prepare($sql);
+        $sql_user = $connect->prepare($sql_user);
 
-        $sql->bindParam(':user_id', $_SESSION['id']);
-        $sql->bindParam(':categorie_id', $_POST['categorie']);
-        $sql->bindParam(':score', $_POST['score']);
-        $sql->bindParam(':len', $_POST['number']);
+        $sql_user->bindParam(':user_id', $_SESSION['id']);
+        $sql_user->bindParam(':categorie_id', $_POST['categorie']);
+        $sql_user->bindParam(':score', $_POST['score']);
+        $sql_user->bindParam(':len', $_POST['number']);
 
         $parameters = "";
 
@@ -138,9 +138,9 @@ if (!isset($_SESSION['id'])) {
         if ($_POST['ap2000'] == 1){
             $parameters .= "ap2000,";
         }
-
-        $sql->bindParam(':parameters', $parameters);
-        $sql->execute();
+        
+        $sql_user->bindParam(':parameters', $parameters);
+        $sql_user->execute();
     }
 }
 

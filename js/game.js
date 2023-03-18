@@ -19,7 +19,11 @@ window.onload = function(){
     document.getElementById('value').style.width = progression_bar + '%';
 
     for (let i = 1; i <= max_title; i++){
-        title_array.push(document.getElementById('sound_proposition' + i).innerHTML);
+        // title_array.push(document.getElementById('sound_proposition' + i).innerHTML);
+        let title_array_temp = [];
+        title_array_temp.push(i);
+        title_array_temp.push(document.getElementById('sound_proposition' + i).innerHTML);
+        title_array.push(title_array_temp);
     }
     document.getElementById('proposition').innerHTML = "";
 
@@ -29,11 +33,16 @@ window.onload = function(){
         liste_prepare.push(document.getElementById('sound_origine' + i).value);
         liste_prepare.push(document.getElementById('sound_title' + i).value);
         liste_prepare.push(document.getElementById('sound_number' + i).value);
+        liste_prepare.push(document.getElementById('sound_origine_id' + i).value);
         sound_array.push(liste_prepare);
     }
 
     for (let i = 0; i < document.getElementById('max_sound').value ; i++){
-        all_sound_array.push(document.getElementById('all_sound_title' + i).value);
+        // all_sound_array.push(document.getElementById('all_sound_title' + i).value);
+        let all_sound_array_temp = [];
+        all_sound_array_temp.push(document.getElementById('all_sound_id' + i).value);
+        all_sound_array_temp.push(document.getElementById('all_sound_title' + i).value);
+        all_sound_array.push(all_sound_array_temp);
     }
 
     document.getElementById('input-sup2').remove();
@@ -71,10 +80,10 @@ function keyboard(){
         }
         if (question_current == 0){
             for (let i = 0; i < max_title; i++){
-                if (title_array[i].toLowerCase().includes(value)){
+                if (title_array[i][1].toLowerCase().includes(value)){
                     let li_temp = document.createElement('li');
-                    li_temp.setAttribute('onclick', "li_proposition(`"+title_array[i]+"`)");
-                    li_temp.innerHTML = title_array[i];
+                    li_temp.setAttribute('onclick', "li_proposition(`"+title_array[i][0]+"`)");
+                    li_temp.innerHTML = title_array[i][1];
                     document.getElementById('proposition').appendChild(li_temp);
                     result++;
                 }
@@ -82,10 +91,10 @@ function keyboard(){
         }
         if (question_current == 1 && input.value.length >= 2){
             for (let i = 0; i < all_sound_array.length; i++){
-                if (all_sound_array[i].toLowerCase().includes(value)){
+                if (all_sound_array[i][1].toLowerCase().includes(value)){
                     let li_temp = document.createElement('li');
-                    li_temp.setAttribute('onclick', "li_proposition(`"+all_sound_array[i]+"`)");
-                    li_temp.innerHTML = all_sound_array[i];
+                    li_temp.setAttribute('onclick', "li_proposition(`"+all_sound_array[i][0]+"`)");
+                    li_temp.innerHTML = all_sound_array[i][1];
                     document.getElementById('proposition').appendChild(li_temp);
                     result++;
                 }
@@ -101,8 +110,12 @@ function keyboard(){
 }
 
 function li_proposition(valeur){
-    input.value = valeur;
-    if (input.value == sound_array[round-1][1] && question_current == 0 || input.value == sound_array[round-1][2] && question_current == 1 && !try_bonus2){
+    if (question_current == 0){
+        input.value = title_array[valeur-1][1];
+    } else {
+        input.value = all_sound_array[valeur-1][1];
+    }
+    if (valeur == sound_array[round-1][4] && question_current == 0 || valeur == sound_array[round-1][0] && question_current == 1 && !try_bonus2){
         good_answer();
     } else {
         document.getElementById('animation').style.border = "2px solid rgb(198, 0, 0)";

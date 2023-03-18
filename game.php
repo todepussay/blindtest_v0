@@ -22,7 +22,7 @@ $categorie_name = ucfirst($categorie_sql[0]['name']);
 
 
 
-$sound_sql = "SELECT origine.id, origine.name as 'origine', sound.id as 'id', sound.title as 'title', sound.number as 'number_opening' FROM origine, sound, categories WHERE categories.id = origine.categorie_id AND sound.origine_id = origine.id AND categories.id = :categorie_id";
+$sound_sql = "SELECT origine.id as 'origine_id', origine.name as 'origine', sound.id as 'id', sound.title as 'title', sound.number as 'number_opening' FROM origine, sound, categories WHERE categories.id = origine.categorie_id AND sound.origine_id = origine.id AND categories.id = :categorie_id";
 
 if ($_POST['top100'] == 1){
     $sound_sql .= " AND sound.top100 = 1";
@@ -52,7 +52,7 @@ $title->bindValue(':id', $categorie_id);
 $title->execute();
 $origine_array = $title->fetchAll();
 
-$title_sound = $connect->prepare("SELECT sound.title as 'sound_title' FROM sound, origine WHERE sound.origine_id = origine.id AND origine.categorie_id = :id ORDER BY origine.name ASC");
+$title_sound = $connect->prepare("SELECT sound.id as 'sound_id', sound.title as 'sound_title' FROM sound, origine WHERE sound.origine_id = origine.id AND origine.categorie_id = :id");
 $title_sound->bindValue(':id', $categorie_id);
 $title_sound->execute();
 $title_sound_array = $title_sound->fetchAll();
@@ -161,6 +161,7 @@ $title_sound_array = $title_sound->fetchAll();
                     <input type="hidden" name="max_sound" value="<?= count($title_sound_array) ?>" id="max_sound">
                     <?php for ($i = 0; $i < count($array); $i++) : ?>
                         <input type="hidden" value="<?= $array[$i]["id"] ?>" id="sound_id<?= $i ?>">
+                        <input type="hidden" value="<?= $array[$i]["origine_id"] ?>" id="sound_origine_id<?= $i ?>">
                         <input type="hidden" value="<?= $array[$i]["origine"] ?>" id="sound_origine<?= $i ?>">
                         <input type="hidden" value="<?= $array[$i]["title"] ?>" id="sound_title<?= $i ?>">
                         <input type="hidden" value="<?= $array[$i]["number_opening"] ?>" id="sound_number<?= $i ?>">
@@ -168,6 +169,7 @@ $title_sound_array = $title_sound->fetchAll();
                 </div>
                 <div id="input-sup2">
                     <?php for ($i = 0; $i < count($title_sound_array); $i++): ?>
+                        <input type="hidden" value="<?= $title_sound_array[$i]["sound_id"] ?>" id="all_sound_id<?= $i ?>" >
                         <input type="hidden" value="<?= $title_sound_array[$i]["sound_title"] ?>" id="all_sound_title<?= $i ?>">
                     <?php endfor; ?>
                 </div>
