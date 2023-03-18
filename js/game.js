@@ -83,9 +83,9 @@ function keyboard(){
                     document.getElementById('animation').style.boxShadow = "0px 0px 5px 0px rgba(255, 255, 255, 0.75)";
                     clearInterval(interval_wrong);
                 }, 400);
-                if (!isNaN(input.value)){
-                    try_bonus1 = true;
+                if (document.getElementById('answer_number').innerHTML == ""){
                     document.getElementById('answer_number').innerHTML = "❌";
+                    try_bonus1 = true;
                 }
             }
         }
@@ -137,7 +137,7 @@ function li_proposition(valeur){
     } else {
         input.value = all_sound_array[valeur-1][1];
     }
-    if (valeur == sound_array[round-1][4] && question_current == 0 || valeur == sound_array[round-1][0] && question_current == 1 && !try_bonus2){
+    if (valeur == sound_array[round-1][4] && question_current == 0 || (valeur == sound_array[round-1][0] && question_current == 1 && !try_bonus2)){
         good_answer();
     } else {
         document.getElementById('animation').style.border = "2px solid rgb(198, 0, 0)";
@@ -150,8 +150,10 @@ function li_proposition(valeur){
             clearInterval(interval_wrong);
         }, 400);
         if (question_current == 1){
-            document.getElementById('answer_title').innerHTML = "❌";
-            try_bonus2 = true;
+            if (document.getElementById('answer_title').innerHTML == ""){
+                document.getElementById('answer_title').innerHTML = "❌";
+                try_bonus2 = true;
+            }
         }
     }
     input.focus();
@@ -265,7 +267,7 @@ document.getElementById('btn-begin').onclick = function() {
             document.getElementById('skip').style.display = 'none';
             document.getElementById('skip').style.animation = "none";
             try_bonus1 = false;
-            try_bonus1 = false;
+            try_bonus2 = false;
             document.getElementById('del').style.zIndex = '1';
             document.getElementById('answer_origine').innerHTML = "";
             document.getElementById('answer_title').innerHTML = "";
