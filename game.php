@@ -57,6 +57,11 @@ $title_sound->bindValue(':id', $categorie_id);
 $title_sound->execute();
 $title_sound_array = $title_sound->fetchAll();
 
+$alternatif = $connect->prepare("SELECT alternatif.id as 'alternatif_id', origine.id as 'origine_id', alternatif.name as 'alternatif_name' FROM alternatif, origine WHERE alternatif.origine_id = origine.id AND origine.categorie_id = :id");
+$alternatif->bindValue(':id', $categorie_id);
+$alternatif->execute();
+$alternatif_array = $alternatif->fetchAll();
+
 
 ?>
 
@@ -171,6 +176,14 @@ $title_sound_array = $title_sound->fetchAll();
                     <?php for ($i = 0; $i < count($title_sound_array); $i++): ?>
                         <input type="hidden" value="<?= $title_sound_array[$i]["sound_id"] ?>" id="all_sound_id<?= $i ?>" >
                         <input type="hidden" value="<?= $title_sound_array[$i]["sound_title"] ?>" id="all_sound_title<?= $i ?>">
+                    <?php endfor; ?>
+                </div>
+                <div id="input-sup3">
+                    <input type="hidden" id="max_alternatif" value="<?= count($alternatif_array) ?>">
+                    <?php for ($i = 0; $i < count($alternatif_array); $i++): ?>
+                        <input type="hidden" value="<?= $alternatif_array[$i]["alternatif_id"] ?>" id="alternatif_id<?= $i ?>">
+                        <input type="hidden" value="<?= $alternatif_array[$i]["origine_id"] ?>" id="origine_id<?= $i ?>">
+                        <input type="hidden" value="<?= $alternatif_array[$i]["alternatif_name"] ?>" id="alternatif_name<?= $i ?>">
                     <?php endfor; ?>
                 </div>
             </form>

@@ -6,6 +6,7 @@ let progression_bar = round / max_sound * 100;
 let title_array = [];
 let sound_array = [];
 let all_sound_array = [];
+let alternatif_array = [];
 let question_current = 0;
 let audio
 let score = 0;
@@ -45,9 +46,19 @@ window.onload = function(){
         all_sound_array.push(all_sound_array_temp);
     }
 
+    for (let i = 0; i < document.getElementById('max_alternatif').value ; i++){
+        let alternatif_array_temp = [];
+        alternatif_array_temp.push(document.getElementById('alternatif_id' + i).value);
+        alternatif_array_temp.push(document.getElementById('origine_id' + i).value);
+        alternatif_array_temp.push(document.getElementById('alternatif_name' + i).value);
+        alternatif_array.push(alternatif_array_temp);
+    }
+
     document.getElementById('input-sup2').remove();
 
     document.getElementById('input-sup').remove();
+
+    document.getElementById('input-sup3').remove();
 
     console.log(sound_array);
 }
@@ -79,11 +90,22 @@ function keyboard(){
             }
         }
         if (question_current == 0){
+            let proposition_temp = [];
             for (let i = 0; i < max_title; i++){
                 if (title_array[i][1].toLowerCase().includes(value)){
                     let li_temp = document.createElement('li');
                     li_temp.setAttribute('onclick', "li_proposition(`"+title_array[i][0]+"`)");
                     li_temp.innerHTML = title_array[i][1];
+                    document.getElementById('proposition').appendChild(li_temp);
+                    proposition_temp.push(title_array[i][0]);
+                    result++;
+                }
+            }
+            for (let i = 0; i < alternatif_array.length; i++){
+                if (alternatif_array[i][2].toLowerCase().includes(value) && !proposition_temp.includes(title_array[alternatif_array[i][1]-1][0])){
+                    let li_temp = document.createElement('li');
+                    li_temp.setAttribute('onclick', "li_proposition(`"+title_array[alternatif_array[i][1]-1][0]+"`)");
+                    li_temp.innerHTML = title_array[alternatif_array[i][1]-1][1];
                     document.getElementById('proposition').appendChild(li_temp);
                     result++;
                 }
