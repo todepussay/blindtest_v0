@@ -20,6 +20,34 @@ if ($_SESSION['admin'] == 0 || !isset($_SESSION['id']) || !isset($_SESSION['admi
 <body>
 
     <?php require('header.php'); ?>
+
+    <div class="container">
+        <div class="box" id="box-admin">
+            <div class="tabs">
+                <div class="tab tab-active" id="tab-categorie">
+                    <span>Catégories</span>
+                </div>
+                <div class="tab" id="tab-sound">
+                    <span>Sons</span>
+                </div>
+                <div class="tab" id="tab-user">
+                    <span>Utilisateurs</span>
+                </div>
+                <div class="tab" id="tab-score-invite">
+                    <span>Scores Invité</span>
+                </div>
+                <div class="tab" id="tab-score">
+                    <span>Scores</span>
+                </div>
+                <div class="tab" id="tab-suggestion">
+                    <span>Suggestion</span>
+                </div>
+
+                <
+
+            </div>
+        </div>
+    </div>
     
 </body>
 </html>

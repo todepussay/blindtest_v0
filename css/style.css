@@ -474,6 +474,38 @@ p {
     margin: 0 1em;
 }
 
+#box-admin {
+    width: 90%;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+}
+
+.tab {
+    padding: 30px;
+    margin-left: 5px;
+    margin-right: 5px;
+    background: #313131;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    cursor: pointer;
+}
+
+.tab span {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.tab-active {
+    background: rgb(216, 206, 0);
+}
+
+.tab-active span {
+    color: black;
+}
+
 @keyframes opacity {
     0% {
         opacity: 0;
