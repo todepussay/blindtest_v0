@@ -64,7 +64,7 @@ $origine = $origine->fetchAll();
                         <div class="tabs">
                             <?php for($j = 0; $j < count($origine); $j++) : ?>
                                 <?php if($origine[$j]["categorie_id"] == $categorie[$i]["id"]) : ?>
-                                    <div class="tab" id="sound<?= $origine[$j]["id"] ?>">
+                                    <div class="tab" id="sound<?= $origine[$j]["id"] ?>" onclick="redirect(<?= $origine[$j]['id'] ?>)">
                                         <span><?= ucfirst($origine[$j]["name"]) ?></span>
                                     </div>
                                 <?php endif; ?>
@@ -78,5 +78,7 @@ $origine = $origine->fetchAll();
         </div>
     </div>
     
+
+    <script src="js/admin.js"></script>
 </body>
 </html>
