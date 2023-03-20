@@ -70,7 +70,7 @@ function keyboard(){
         let result = 0;
         document.getElementById('proposition').innerHTML = "";
         let code = event.keyCode;
-        if (code == 13){
+        if (code == 13 && question_current == 1){
             if (question_current == 1 && input.value == sound_array[round-1][3] && !try_bonus1 && !isNaN(input.value)){
                 good_answer();
             } else {

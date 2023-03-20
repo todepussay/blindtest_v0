@@ -482,6 +482,7 @@ p {
     display: flex;
     justify-content: center;
     width: 100%;
+    flex-wrap: wrap;
 }
 
 .tab {
@@ -492,7 +493,6 @@ p {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     cursor: pointer;
-    /* Wrap automatique */
 }
 
 .tab span {
@@ -512,6 +512,11 @@ p {
     width: 100%;
     border-radius: 3px;
     padding-top: 20px;
+}
+
+#tab-selection-opening .tab {
+    margin: 10px;
+    border-radius: 10px;
 }
 
 @keyframes opacity {

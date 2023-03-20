@@ -115,7 +115,7 @@ $alternatif_array = $alternatif->fetchAll();
             </div>
 
             <div id="question-box">
-                <span class="question-txt">Question : <span id="question">De quel anime est tiré ce générique ?</span> <span id="answer_origine"></span></span><br>
+                <span class="question-txt">Question : <span id="question">De quel anime est tiré ce générique ?</span><span id="answer_origine"></span></span><br>
                 <?php if (!isset($premier)) : ?>
                     <span class="question-txt" id="question-bonus1">Question : Quel est le numéro de l'opening ? <span id="answer_number"></span></span>
                 <?php endif; ?>
