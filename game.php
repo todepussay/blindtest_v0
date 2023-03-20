@@ -115,7 +115,7 @@ $alternatif_array = $alternatif->fetchAll();
             </div>
 
             <div id="question-box">
-                <span class="question-txt">Question : <span id="question">De quel anime est tiré ce générique ?</span><span id="answer_origine"></span></span><br>
+                <span class="question-txt">Question : <span id="question">De quel anime est tiré ce générique ?</span> <span id="answer_origine"></span></span><br>
                 <?php if (!isset($premier)) : ?>
                     <span class="question-txt" id="question-bonus1">Question : Quel est le numéro de l'opening ? <span id="answer_number"></span></span>
                 <?php endif; ?>
@@ -157,7 +157,7 @@ $alternatif_array = $alternatif->fetchAll();
                 <input type="hidden" name="all" value="<?= $all ?>">
                 <input type="hidden" id="number" name="number" value="<?= $_POST['number'] ?>">
                 <input type="hidden" name="top100" value="<?php if($_POST['top100'] == 1 || $_POST['all'] == 1){echo 1;} else {echo 0;} ?>">
-                <input type="hidden" name="premier" value="<?php if($_POST['premier'] == 1 || $_POST['all'] == 1){echo 1;} else {echo 0;} ?>">
+                <input type="hidden" name="premier" id="premier_input" value="<?php if($_POST['premier'] == 1){echo 1;} else {echo 0;} ?>">
                 <input type="hidden" name="av2000" value="<?php if($_POST['av2000'] == 1 || $_POST['all'] == 1){echo 1;} else {echo 0;} ?>">
                 <input type="hidden" name="ap2000" value="<?php if($_POST['ap2000'] == 1 || $_POST['all'] == 1){echo 1;} else {echo 0;} ?>">
                 <input type="hidden" name="score" id="score_input" value="">

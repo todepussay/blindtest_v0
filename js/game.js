@@ -70,7 +70,7 @@ function keyboard(){
         let result = 0;
         document.getElementById('proposition').innerHTML = "";
         let code = event.keyCode;
-        if (code == 13 && question_current == 1){
+        if (code == 13 && question_current == 1 && document.getElementById('premier_input').value == 0){
             if (question_current == 1 && input.value == sound_array[round-1][3] && !try_bonus1 && !isNaN(input.value)){
                 good_answer();
             } else {
@@ -174,7 +174,9 @@ function good_answer(){
         input.value = "";
         document.getElementById('proposition').innerHTML = "";
         document.getElementById('proposition').style.display = 'none';
-        document.getElementById('question-bonus1').style.display = 'block';
+        if (document.getElementById('premier_input').value == 0){
+            document.getElementById('question-bonus1').style.display = 'block';
+        }
         document.getElementById('question-bonus2').style.display = 'block';
         input.focus();
         question_current++;
@@ -271,8 +273,10 @@ document.getElementById('btn-begin').onclick = function() {
             document.getElementById('del').style.zIndex = '1';
             document.getElementById('answer_origine').innerHTML = "";
             document.getElementById('answer_title').innerHTML = "";
-            document.getElementById('answer_number').innerHTML = "";
-            document.getElementById('question-bonus1').style.display = "none";
+            if (document.getElementById('premier_input').value == 0){
+                document.getElementById('answer_number').innerHTML = "";
+                document.getElementById('question-bonus1').style.display = "none";
+            }
             document.getElementById('question-bonus2').style.display = "none";
             round++;
             if (round > max_sound){
