@@ -6,6 +6,17 @@ if ($_SESSION['admin'] == 0 || !isset($_SESSION['id']) || !isset($_SESSION['admi
     header('Location: index.php');
 }
 
+require 'connect.php';
+
+$categorie = $connect->prepare("SELECT categories.id as 'id', categories.name as 'name' FROM categories");
+$categorie->execute();
+$categorie = $categorie->fetchAll();
+
+$origine = "SELECT * FROM origine";
+$origine = $connect->prepare($origine);
+$origine->execute();
+$origine = $origine->fetchAll();
+
 ?>
 
 <!DOCTYPE html>
@@ -23,18 +34,13 @@ if ($_SESSION['admin'] == 0 || !isset($_SESSION['id']) || !isset($_SESSION['admi
 
     <div class="container">
         <div class="box" id="box-admin">
+
             <div class="tabs">
-                <div class="tab tab-active" id="tab-categorie">
-                    <span>Catégories</span>
-                </div>
-                <div class="tab" id="tab-sound">
+                <div class="tab tab-active" id="tab-sound">
                     <span>Sons</span>
                 </div>
                 <div class="tab" id="tab-user">
                     <span>Utilisateurs</span>
-                </div>
-                <div class="tab" id="tab-score-invite">
-                    <span>Scores Invité</span>
                 </div>
                 <div class="tab" id="tab-score">
                     <span>Scores</span>
@@ -42,10 +48,33 @@ if ($_SESSION['admin'] == 0 || !isset($_SESSION['id']) || !isset($_SESSION['admi
                 <div class="tab" id="tab-suggestion">
                     <span>Suggestion</span>
                 </div>
+            </div>
 
-                <
+            <div class="tab-selection" id="tab-selection-sound">
+                <div class="tabs">
+                    <?php for($i = 0; $i < count($categorie); $i++) : ?>
+                        <div class="tab tab-active" id="categorie<?= $categorie[$i]['id'] ?>">
+                            <span><?= ucfirst($categorie[$i]['name']) ?></span>
+                        </div>
+                    <?php endfor; ?>
+                </div>
+
+                <?php for ($i = 0; $i < count($categorie); $i++): ?>
+                    <div class="tab-selection" id="tab-selection-<?= $categorie[$i]['name'] ?>">
+                        <div class="tabs">
+                            <?php for($j = 0; $j < count($origine); $j++) : ?>
+                                <?php if($origine[$j]["categorie_id"] == $categorie[$i]["id"]) : ?>
+                                    <div class="tab" id="sound<?= $origine[$j]["id"] ?>">
+                                        <span><?= ucfirst($origine[$j]["name"]) ?></span>
+                                    </div>
+                                <?php endif; ?>
+                            <?php endfor; ?>                            
+                        </div>
+                    </div>
+                <?php endfor; ?>
 
             </div>
+
         </div>
     </div>
     

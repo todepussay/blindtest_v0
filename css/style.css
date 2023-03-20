@@ -481,6 +481,7 @@ p {
 .tabs {
     display: flex;
     justify-content: center;
+    width: 100%;
 }
 
 .tab {
@@ -491,6 +492,7 @@ p {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     cursor: pointer;
+    /* Wrap automatique */
 }
 
 .tab span {
@@ -499,11 +501,17 @@ p {
 }
 
 .tab-active {
-    background: rgb(216, 206, 0);
+    background: rgb(18, 92, 255);
 }
 
 .tab-active span {
     color: black;
+}
+
+.tab-selection {
+    width: 100%;
+    border-radius: 3px;
+    padding-top: 20px;
 }
 
 @keyframes opacity {
