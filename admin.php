@@ -35,20 +35,24 @@ $origine = $origine->fetchAll();
     <div class="container">
         <div class="box" id="box-admin">
 
+        <!-- 1er choix d'onglets -->
+
             <div class="tabs">
-                <div class="tab tab-active" id="tab-sound">
+                <div class="tab tab-1" id="tab-sound" onclick="tab_change('sound')">
                     <span>Sons</span>
                 </div>
-                <div class="tab" id="tab-user">
+                <div class="tab tab-1" id="tab-user" onclick="tab_change('user')">
                     <span>Utilisateurs</span>
                 </div>
-                <div class="tab" id="tab-score">
+                <div class="tab tab-1" id="tab-score" onclick="tab_change('score')">
                     <span>Scores</span>
                 </div>
-                <div class="tab" id="tab-suggestion">
+                <div class="tab tab-1" id="tab-suggestion" onclick="tab_change('suggestion')">
                     <span>Suggestion</span>
                 </div>
             </div>
+
+        <!-- 2eme choix d'onglets -->
 
             <div class="tab-selection" id="tab-selection-sound">
                 <div class="tabs">

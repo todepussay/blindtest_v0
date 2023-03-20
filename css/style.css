@@ -513,6 +513,10 @@ p {
     padding-top: 20px;
 }
 
+#tab-selection-sound {
+    display: none;
+}
+
 #tab-selection-opening .tab {
     margin: 10px;
 }
