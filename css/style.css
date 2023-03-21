@@ -511,14 +511,42 @@ p {
     width: 100%;
     border-radius: 3px;
     padding-top: 20px;
-}
-
-#tab-selection-sound {
     display: none;
 }
 
-#tab-selection-opening .tab {
+.tab-selection2 {
+    display: none;
+}
+
+.tab-selection2 .tab {
     margin: 10px;
+}
+
+#admin-sound {
+    text-align: center;
+}
+
+#admin-sound ul {
+    margin-top: 3em;
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 3em;
+}
+
+#admin-sound ul li {
+    border: solid 1px white;
+    border-radius: 10px;
+    padding: 1em;
+    font-size: 1.5em;
+    margin: 20px;
+}
+
+#admin-sound ul li a {
+    text-decoration: underline solid 1px;
+}
+
+.top100 {
+    color: rgb(216, 206, 0);
 }
 
 @keyframes opacity {

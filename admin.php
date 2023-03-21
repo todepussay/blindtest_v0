@@ -57,14 +57,14 @@ $origine = $origine->fetchAll();
             <div class="tab-selection" id="tab-selection-sound">
                 <div class="tabs">
                     <?php for($i = 0; $i < count($categorie); $i++) : ?>
-                        <div class="tab tab-active" id="categorie<?= $categorie[$i]['id'] ?>">
+                        <div class="tab tab-2" id="categorie<?= $categorie[$i]['id'] ?>" onclick="tab_change2('<?= $categorie[$i]['id'] ?>')">
                             <span><?= ucfirst($categorie[$i]['name']) ?></span>
                         </div>
                     <?php endfor; ?>
                 </div>
 
                 <?php for ($i = 0; $i < count($categorie); $i++): ?>
-                    <div class="tab-selection" id="tab-selection-<?= $categorie[$i]['name'] ?>">
+                    <div class="tab-selection2" id="tab-selection-<?= $categorie[$i]['id'] ?>">
                         <div class="tabs">
                             <?php for($j = 0; $j < count($origine); $j++) : ?>
                                 <?php if($origine[$j]["categorie_id"] == $categorie[$i]["id"]) : ?>
@@ -76,6 +76,25 @@ $origine = $origine->fetchAll();
                         </div>
                     </div>
                 <?php endfor; ?>
+
+            </div>
+
+            <div class="tab-selection" id="tab-selection-user">
+                <div class="tabs">
+                    <div class="tab" id="tab-user-1">
+                        <span>Utilisateurs</span>
+                    </div>
+                    <div class="tab" id="tab-user-2">
+                        <span>Invitations</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-selection" id="tab-selection-score">
+
+            </div>
+
+            <div class="tab-selection" id="tab-selection-suggestion">
 
             </div>
 
