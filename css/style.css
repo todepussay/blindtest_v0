@@ -88,6 +88,7 @@ h1 {
     font-size: 4rem;
     font-weight: 600;
     margin-bottom: 3rem;
+    text-align: center;
 }
 
 label {
@@ -226,12 +227,19 @@ button {
 h2 {
     margin-top: 1em;
     font-size: 3em;
+    text-align: center;
 }
 
 p {
     font-size: 1.5em;
     font-weight: 400;
     margin-top: 2rem;
+}
+
+#suppresion {
+    text-align: center;
+    margin-top: 3em;
+    margin-bottom: 5em;
 }
 
 #question-bonus1 {
@@ -316,6 +324,7 @@ p {
 }
 
 #score-game {
+    text-align: left;
     font-size: 3em;
     font-weight: 400;
     width: 40%;
@@ -515,6 +524,7 @@ p {
 }
 
 .tab-selection2 {
+    margin-top: 2em;
     display: none;
 }
 
@@ -547,6 +557,49 @@ p {
 
 .top100 {
     color: rgb(216, 206, 0);
+}
+
+.box-input {
+    margin-top: 1.5em;
+    text-align: center;
+    border: 2px solid white;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.box-input label {
+    font-size: 3em;
+}
+
+.box-input input {
+    font-size: 2em;
+    padding: 10px;
+    border: solid 1px white;
+    border-radius: 10px;
+    color: black;
+    margin-top: 10px;
+    text-align: center;
+}
+
+#table-user {
+    list-style-type: none;
+    
+}
+
+#table-user li {
+    border: solid 1px white;
+    border-radius: 10px;
+    padding: 0.5em;
+    font-size: 2em;
+    margin: 20px;
+}
+
+#table-user li span {
+    margin-left: 3em;
+}
+
+#admin-user-a {
+    margin-left: 3em;
 }
 
 @keyframes opacity {

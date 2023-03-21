@@ -44,7 +44,7 @@ if (isset($_SESSION['id'])){
                             $sql_inject->bindParam(":date", $score_temp[$i]["date"]);
                             $sql_inject->execute();
 
-                            $sql_delete = "DELETE FROM score_invite WHERE id = :id LIMIT 1";
+                            $sql_delete = "DELETE FROM score_invite WHERE id_score_invite = :id LIMIT 1";
                             $sql_delete = $connect->prepare($sql_delete);
                             $sql_delete->bindParam(":id", $score_temp[$i]["id"]);
                             $sql_delete->execute();

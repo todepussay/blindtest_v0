@@ -16,7 +16,7 @@ require "connect.php";
 
 if (!isset($_SESSION['id'])) {
 
-    $sql_select = "SELECT id FROM score_invite WHERE invite_id = :invite_id AND categorie_id = :categorie_id AND score = :score AND len = :len AND parameters = :parameters";
+    $sql_select = "SELECT id_score_invite FROM score_invite WHERE invite_id = :invite_id AND categorie_id = :categorie_id AND score = :score AND len = :len AND parameters = :parameters";
     $sql_select = $connect->prepare($sql_select);
     $sql_select->bindParam(':invite_id', $_SESSION['invite']);
     $sql_select->bindParam(':categorie_id', $_POST['categorie']);
@@ -81,7 +81,7 @@ if (!isset($_SESSION['id'])) {
 
 } else {
 
-    $sql_user_select = "SELECT id FROM score WHERE user_id = :user_id AND categorie_id = :categorie_id AND score = :score AND len = :len AND parameters = :parameters";
+    $sql_user_select = "SELECT id_score FROM score WHERE user_id = :user_id AND categorie_id = :categorie_id AND score = :score AND len = :len AND parameters = :parameters";
     $sql_user_select = $connect->prepare($sql_user_select);
     $sql_user_select->bindParam(':user_id', $_SESSION['id']);
     $sql_user_select->bindParam(':categorie_id', $_POST['categorie']);
