@@ -87,8 +87,10 @@ $users = $users->fetchAll();
                         <li>
                             <span class="<?php if($users[$i]['admin'] == 1){echo 'top100';} ?>" id="username"><?= $users[$i]['username'] ?></span>
                             <span id="email"><?= $users[$i]['email'] ?></span> 
-                            <a id="admin-user-a" href="admin-user-modifier.php?id=<?= $users[$i]["id"] ?>">Modifier</a>
-                            <a href="admin-user-supprimer.php?id=<?= $users[$i]["id"] ?>">Supprimer</a>
+                            <span>
+                                <a href="admin-user-modifier.php?id=<?= $users[$i]["id"] ?>">Modifier</a>
+                                <a href="admin-user-supprimer.php?id=<?= $users[$i]["id"] ?>">Supprimer</a>
+                            </span>
                         </li>
                     <?php endfor; ?>
                 </ul>

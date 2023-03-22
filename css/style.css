@@ -595,11 +595,9 @@ p {
 }
 
 #table-user li span {
-    margin-left: 3em;
-}
-
-#admin-user-a {
-    margin-left: 3em;
+    width: 32%;
+    display: inline-block;
+    overflow-x: auto;
 }
 
 @keyframes opacity {
