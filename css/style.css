@@ -622,6 +622,36 @@ p {
     overflow-x: auto;
 }
 
+#table-proposition {
+    list-style-type: none;
+}
+
+#table-proposition li {
+    border: solid 1px white;
+    border-radius: 10px;
+    padding: 0.5em;
+    font-size: 1.5em;
+    margin: 20px;
+}
+
+#table-proposition li span {
+    display: inline-block;
+    overflow-x: auto;
+}
+
+#table-proposition li span:first-child {
+    width: 10%;
+}
+
+#table-proposition li span:last-child {
+    width: 20%;
+}
+
+#table-proposition li span:nth-child(2) {
+    width: 60%;
+    overflow-x: auto;
+}
+
 .recherche {
     width: 100%;
     margin-bottom: 2em;
@@ -636,6 +666,22 @@ p {
     color: black;
     margin-top: 10px;
     text-align: center;
+}
+
+#form-proposition {
+    width: 100%;
+    text-align: center;
+}
+
+#form-proposition textarea {
+    width: 90%;
+    font-size: 2em;
+    padding: 10px;
+    border: solid 1px white;
+    border-radius: 10px;
+    color: black;
+    margin-top: 10px;
+    height: 250px;
 }
 
 @keyframes opacity {

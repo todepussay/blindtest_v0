@@ -31,6 +31,11 @@ $score_invite = $connect->prepare($score_invite);
 $score_invite->execute();
 $score_invite = $score_invite->fetchAll();
 
+$proposition = "SELECT * FROM proposition";
+$proposition = $connect->prepare($proposition);
+$proposition->execute();
+$proposition = $proposition->fetchAll();
+
 ?>
 
 <!DOCTYPE html>
@@ -61,8 +66,8 @@ $score_invite = $score_invite->fetchAll();
                 <div class="tab tab-1" id="tab-score" onclick="tab_change('score')">
                     <span>Scores</span>
                 </div>
-                <div class="tab tab-1" id="tab-suggestion" onclick="tab_change('suggestion')">
-                    <span>Suggestion</span>
+                <div class="tab tab-1" id="tab-proposition" onclick="tab_change('proposition')">
+                    <span>Proposition</span>
                 </div>
             </div>
 
@@ -150,8 +155,19 @@ $score_invite = $score_invite->fetchAll();
 
             </div>
 
-            <div class="tab-selection" id="tab-selection-suggestion">
+            <div class="tab-selection" id="tab-selection-proposition">
+                    
+                <h2>Liste des propositions : </h2>
 
+                <ul id="table-proposition">
+                    <?php for($i = 0; $i < count($proposition); $i++): ?>
+                        <li id="proposition_<?=$i?>">
+                            <span><?= $users[$proposition[$i]['user_id']][1] ?></span>
+                            <span><?= $proposition[$i]["text"] ?></span>
+                            <span><?= $proposition[$i]["date"] ?> <a href="admin-proposition-supprimer.php?id=<?= $proposition[$i]["id"] ?>">✅</a></span>
+                        </li>
+                    <?php endfor; ?>
+                </ul>
             </div>
 
         </div>
