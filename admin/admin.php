@@ -16,6 +16,10 @@ $users = $connect->prepare($users);
 $users->execute();
 $users = $users->fetchAll();
 
+$alternatif = "SELECT * FROM alternatif";
+$alternatif = $connect->prepare($alternatif);
+$alternatif->execute();
+$alternatif = $alternatif->fetchAll();
 
 ?>
 
@@ -65,7 +69,12 @@ $users = $users->fetchAll();
 
                 <?php for ($i = 0; $i < count($categorie); $i++): ?>
                     <div class="tab-selection2" id="tab-selection-<?= $categorie[$i]['id'] ?>">
-                        <div class="tabs">
+                        
+                        <div class="recherche">
+                            <input type="text" name="recherche" id="recherche-origine" placeholder="Recherche">
+                        </div>
+
+                        <div class="tabs" id="tabs-origine">
                             <?php for($j = 0; $j < count($origine); $j++) : ?>
                                 <?php if($origine[$j]["categorie_id"] == $categorie[$i]["id"]) : ?>
                                     <div class="tab" id="sound<?= $origine[$j]["id"] ?>" onclick="redirect(<?= $origine[$j]['id'] ?>)">
@@ -105,6 +114,26 @@ $users = $users->fetchAll();
             </div>
 
         </div>
+    </div>
+
+    <div id="sup-max">
+        <input type="hidden" id="max_categorie" value="<?= count($categorie) ?>">
+        <input type="hidden" id="max_origine" value="<?= count($origine) ?>">
+    </div>
+
+    <div id="sup-categorie">
+        <?php for($i = 0; $i < count($categorie); $i++): ?>
+            <input type="hidden" id="categorie_id_<?= $i ?>" value="<?= $categorie[$i]["id"] ?>">
+            <input type="hidden" id="categorie_name_<?= $i ?>" value="<?= $categorie[$i]["name"] ?>">
+        <?php endfor; ?>
+    </div>
+    
+    <div id="sup-origine">
+        <?php for($i = 0; $i < count($origine); $i++): ?>
+            <input type="hidden" id="origine_id_<?= $i ?>" value="<?= $origine[$i]["id"] ?>">
+            <input type="hidden" id="origine_categorie_id_<?= $i ?>" value="<?= $origine[$i]["categorie_id"] ?>">
+            <input type="hidden" id="origine_name_<?= $i ?>" value="<?= $origine[$i]["name"] ?>">
+        <?php endfor; ?>
     </div>
     
 

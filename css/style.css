@@ -600,6 +600,22 @@ p {
     overflow-x: auto;
 }
 
+.recherche {
+    width: 100%;
+    margin-bottom: 2em;
+}
+
+.recherche input {
+    width: 100%;
+    font-size: 2em;
+    padding: 10px;
+    border: solid 1px white;
+    border-radius: 10px;
+    color: black;
+    margin-top: 10px;
+    text-align: center;
+}
+
 @keyframes opacity {
     0% {
         opacity: 0;
