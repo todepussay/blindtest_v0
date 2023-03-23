@@ -1,13 +1,16 @@
 let categorie_array = [];
 let origine_array = [];
+let user_array = [];
 let max_origine = 0;
 let max_alternatif = 0;
 let max_categorie = 0;
+let max_user = 0;
 let categorie_current = 0;
 
 window.onload = function(){
     max_categorie = document.getElementById('max_categorie').value;
     max_origine = document.getElementById('max_origine').value;
+    max_user = document.getElementById('max_user').value;
     document.getElementById('sup-max').remove();
 
     for (let i = 0; i < max_categorie; i++) {
@@ -28,6 +31,17 @@ window.onload = function(){
     }
 
     document.getElementById('sup-origine').remove();
+
+    for (let i = 0; i < max_user; i++) {
+        let temp_user_array = [];
+        temp_user_array.push(document.getElementById('user_id_' + i).value);
+        temp_user_array.push(document.getElementById('user_username_' + i).value);
+        temp_user_array.push(document.getElementById('user_email_' + i).value);
+        temp_user_array.push(document.getElementById('user_admin_' + i).value);
+        user_array.push(temp_user_array);
+    }
+
+    document.getElementById('sup-user').remove();
 }
 
 function redirect(value){
@@ -67,6 +81,46 @@ document.getElementById('recherche-origine').onkeyup = function(){
             div.onclick = "redirect('" + origine_array[i][0] + "')";
             div.innerHTML = "<span>" + origine_array[i][2] + "</span>";
             document.getElementById('tabs-origine').appendChild(div);
+        }
+    }
+}
+
+document.getElementById('recherche-user').onkeyup = function(){
+    let value = document.getElementById('recherche-user').value.toLowerCase();
+
+    document.getElementById('table-user').innerHTML = "";
+    for (let i = 0; i < user_array.length; i++){
+        if (user_array[i][1].toLowerCase().includes(value) || user_array[i][2].toLowerCase().includes(value)){
+            let li = document.createElement('li');
+
+            let span1 = document.createElement('span');
+            if (user_array[i][3] == 1){
+                span1.className = "top100";
+            }
+            span1.id = "username";
+            span1.innerHTML = user_array[i][1];
+            
+            let span2 = document.createElement('span');
+            span2.id = "email";
+            span2.innerHTML = user_array[i][2];
+
+            let span3 = document.createElement('span');
+            let a1 = document.createElement('a');
+            a1.href = `admin-user-modifier.php?id=` + user_array[i][0];
+            a1.innerHTML = "Modifier";
+
+            let a2 = document.createElement('a');
+            a2.href = `admin-user-supprimer.php?id=` + user_array[i][0];
+            a2.innerHTML = "Supprimer";
+
+            span3.appendChild(a1);
+            span3.appendChild(a2);
+
+            li.appendChild(span1);
+            li.appendChild(span2);
+            li.appendChild(span3);
+
+            document.getElementById('table-user').appendChild(li);
         }
     }
 }

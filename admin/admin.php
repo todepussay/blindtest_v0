@@ -21,6 +21,16 @@ $alternatif = $connect->prepare($alternatif);
 $alternatif->execute();
 $alternatif = $alternatif->fetchAll();
 
+$score = "SELECT * FROM score";
+$score = $connect->prepare($score);
+$score->execute();
+$score = $score->fetchAll();
+
+$score_invite = "SELECT * FROM score_invite ORDER BY score DESC";
+$score_invite = $connect->prepare($score_invite);
+$score_invite->execute();
+$score_invite = $score_invite->fetchAll();
+
 ?>
 
 <!DOCTYPE html>
@@ -89,6 +99,11 @@ $alternatif = $alternatif->fetchAll();
             </div>
 
             <div class="tab-selection" id="tab-selection-user">
+                
+                <div class="recherche">
+                    <input type="text" name="recherche" id="recherche-user" placeholder="Recherche">
+                </div>
+                
                 <h2>Liste des utilisateurs : </h2>
 
                 <ul id="table-user">
@@ -106,6 +121,32 @@ $alternatif = $alternatif->fetchAll();
             </div>
 
             <div class="tab-selection" id="tab-selection-score">
+                
+                <h2>Liste des scores : </h2>
+
+                <ul id="table-score">
+                    <?php for ($i = 0; $i < count($score); $i++): ?>
+                        <li>
+                            <span class="<?php if($users[$score[$i]["user_id"]]["admin"] == 1){echo "top100";} ?>"><?= $users[$score[$i]["user_id"]]["username"] ?></span>
+                            <span><?= ucfirst($categorie[$score[$i]["categorie_id"]]["name"]) ?></span>
+                            <span><?= $score[$i]["score"] ?></span>
+                            <span><?= $score[$i]["len"] ?></span>
+                            <?php
+                            $l = explode(',', $score[$i]["parameters"]);
+                            $parameters = "";
+                            if ($l[0] == 'all'){
+                                $parameters = "Tous";
+                            } else {
+                                for ($i = 0; $i < count($l); $i++){
+                                    $parameters .= ucfirst($l[$i]);
+                                }
+                            }
+                            ?>
+                            <span><?= $parameters ?></span>
+                            <span><?= $score[$i]["date"] ?></span>
+                        </li>
+                    <?php endfor; ?>
+                </ul>
 
             </div>
 
@@ -119,6 +160,7 @@ $alternatif = $alternatif->fetchAll();
     <div id="sup-max">
         <input type="hidden" id="max_categorie" value="<?= count($categorie) ?>">
         <input type="hidden" id="max_origine" value="<?= count($origine) ?>">
+        <input type="hidden" id="max_user" value="<?= count($users) ?>">
     </div>
 
     <div id="sup-categorie">
@@ -133,6 +175,15 @@ $alternatif = $alternatif->fetchAll();
             <input type="hidden" id="origine_id_<?= $i ?>" value="<?= $origine[$i]["id"] ?>">
             <input type="hidden" id="origine_categorie_id_<?= $i ?>" value="<?= $origine[$i]["categorie_id"] ?>">
             <input type="hidden" id="origine_name_<?= $i ?>" value="<?= $origine[$i]["name"] ?>">
+        <?php endfor; ?>
+    </div>
+
+    <div id="sup-user">
+        <?php for($i = 0; $i < count($users); $i++): ?>
+            <input type="hidden" id="user_id_<?= $i ?>" value="<?= $users[$i]["id"] ?>">
+            <input type="hidden" id="user_username_<?= $i ?>" value="<?= $users[$i]["username"] ?>">
+            <input type="hidden" id="user_email_<?= $i ?>" value="<?= $users[$i]["email"] ?>">
+            <input type="hidden" id="user_admin_<?= $i ?>" value="<?= $users[$i]["admin"] ?>">
         <?php endfor; ?>
     </div>
     

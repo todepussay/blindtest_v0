@@ -600,13 +600,35 @@ p {
     overflow-x: auto;
 }
 
+#table-user li span a:last-child {
+    padding-left: 20px;
+}
+
+#table-score {
+    list-style-type: none;
+}
+
+#table-score li {
+    border: solid 1px white;
+    border-radius: 10px;
+    padding: 0.5em;
+    font-size: 1.5em;
+    margin: 20px;
+}
+
+#table-score li span {
+    width: 15%;
+    display: inline-block;
+    overflow-x: auto;
+}
+
 .recherche {
     width: 100%;
     margin-bottom: 2em;
 }
 
 .recherche input {
-    width: 100%;
+    width: 90%;
     font-size: 2em;
     padding: 10px;
     border: solid 1px white;
