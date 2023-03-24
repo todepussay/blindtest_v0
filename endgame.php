@@ -12,11 +12,26 @@ if (!isset($_POST['categorie']) || !isset($_POST['score'])) {
 
 require "connect.php";
 
-
+$today = getdate();
+    
+$date = "";
+$date .= $today['year'] . "-";
+if ($today['mon'] < 10) {
+    $date .= "0" . $today['mon'] . "-";
+} else {
+    $date .= $today['mon'] . "-";
+}
+if ($today['mday'] < 10) {
+    $date .= "0" . $today['mday'] . " ";
+} else {
+    $date .= $today['mday']. " ";
+}
+$date .= $today['hours'] . ":";
+$date .= $today['minutes'];
 
 if (!isset($_SESSION['id'])) {
 
-    $sql_select = "SELECT id_score_invite FROM score_invite WHERE invite_id = :invite_id AND categorie_id = :categorie_id AND score = :score AND len = :len AND parameters = :parameters";
+    $sql_select = "SELECT id_score_invite FROM score_invite WHERE invite_id = :invite_id AND categorie_id = :categorie_id AND score = :score AND len = :len AND parameters = :parameters AND date_score = :date_score";
     $sql_select = $connect->prepare($sql_select);
     $sql_select->bindParam(':invite_id', $_SESSION['invite']);
     $sql_select->bindParam(':categorie_id', $_POST['categorie']);
@@ -42,12 +57,14 @@ if (!isset($_SESSION['id'])) {
     }
 
     $sql_select->bindParam(':parameters', $parameters_select);
+    $sql_select->bindParam(':date_score', $date);
+
     $sql_select->execute();
     $result = $sql_select->fetchAll();
     
     if (count($result) == 0){
         
-        $sql = "INSERT INTO  score_invite (invite_id, categorie_id, score, len, parameters) VALUES (:invite_id, :categorie_id, :score, :len, :parameters    )";
+        $sql = "INSERT INTO  score_invite (invite_id, categorie_id, score, len, parameters, date_score) VALUES (:invite_id, :categorie_id, :score, :len, :parameters, :date_score)";
 
         $sql = $connect->prepare($sql);
 
@@ -75,13 +92,14 @@ if (!isset($_SESSION['id'])) {
         }
 
         $sql->bindParam(':parameters', $parameters);
+        $sql->bindParam(':date_score', $date);
         $sql->execute();
 
     }
 
 } else {
 
-    $sql_user_select = "SELECT id_score FROM score WHERE user_id = :user_id AND categorie_id = :categorie_id AND score = :score AND len = :len AND parameters = :parameters";
+    $sql_user_select = "SELECT id_score FROM score WHERE user_id = :user_id AND categorie_id = :categorie_id AND score = :score AND len = :len AND parameters = :parameters AND date_score = :date_score";
     $sql_user_select = $connect->prepare($sql_user_select);
     $sql_user_select->bindParam(':user_id', $_SESSION['id']);
     $sql_user_select->bindParam(':categorie_id', $_POST['categorie']);
@@ -107,12 +125,13 @@ if (!isset($_SESSION['id'])) {
     }
 
     $sql_user_select->bindParam(':parameters', $parameters_select);
+    $sql_user_select->bindParam(':date_score', $date);
     $sql_user_select->execute();
     $result = $sql_user_select->fetchAll();
 
     if (count($result) == 0){
 
-        $sql_user = "INSERT INTO  score (user_id, categorie_id, score, len, parameters) VALUES (:user_id, :categorie_id, :score, :len, :parameters)";
+        $sql_user = "INSERT INTO  score (user_id, categorie_id, score, len, parameters, date_score) VALUES (:user_id, :categorie_id, :score, :len, :parameters, :date_score)";
 
         $sql_user = $connect->prepare($sql_user);
 
@@ -140,6 +159,7 @@ if (!isset($_SESSION['id'])) {
         }
         
         $sql_user->bindParam(':parameters', $parameters);
+        $sql_user->bindParam(':date_score', $date);
         $sql_user->execute();
     }
 }

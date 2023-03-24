@@ -21,8 +21,8 @@ $alternatif = $connect->prepare($alternatif);
 $alternatif->execute();
 $alternatif = $alternatif->fetchAll();
 
-$score = "SELECT score.id_score as 'id', users.username as 'username', users.admin as 'admin' , categories.name as 'categorie', score.score as 'score', score.len as 'len', score.parameters as 'parameters', score.date as 'date' FROM score, users, categories WHERE score.user_id = users.id AND score.categorie_id = categories.id";
-$score = $connect->prepare($score);
+$score_sql = "SELECT score.id_score as 'id', users.username as 'username', users.admin as 'admin' , categories.name as 'categorie', score.score as 'score', score.len as 'len', score.parameters as 'parameters', score.date_score as 'date' FROM score, users, categories WHERE score.user_id = users.id AND score.categorie_id = categories.id";
+$score = $connect->prepare($score_sql);
 $score->execute();
 $score = $score->fetchAll();
 
@@ -148,7 +148,8 @@ $proposition = $proposition->fetchAll();
                             }
                             ?>
                             <span><?= $parameters ?></span>
-                            <span><?= $score[$i]["date"] ?></span>
+                            <?php var_dump(count($score));?>
+                            <span><?= $score[$i]["date"]; ?></span>
                         </li>
                     <?php endfor; ?>
                 </ul>
