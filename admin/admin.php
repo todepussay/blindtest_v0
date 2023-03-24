@@ -21,7 +21,7 @@ $alternatif = $connect->prepare($alternatif);
 $alternatif->execute();
 $alternatif = $alternatif->fetchAll();
 
-$score = "SELECT * FROM score";
+$score = "SELECT score.id_score as 'id', users.username as 'username', users.admin as 'admin' , categories.name as 'categorie', score.score as 'score', score.len as 'len', score.parameters as 'parameters', score.date as 'date' FROM score, users, categories WHERE score.user_id = users.id AND score.categorie_id = categories.id";
 $score = $connect->prepare($score);
 $score->execute();
 $score = $score->fetchAll();
@@ -31,7 +31,7 @@ $score_invite = $connect->prepare($score_invite);
 $score_invite->execute();
 $score_invite = $score_invite->fetchAll();
 
-$proposition = "SELECT * FROM proposition";
+$proposition = "SELECT proposition.id as 'id', users.username as 'username', proposition.text as 'text', proposition.date as 'date' FROM proposition, users WHERE proposition.user_id = users.id";
 $proposition = $connect->prepare($proposition);
 $proposition->execute();
 $proposition = $proposition->fetchAll();
@@ -132,8 +132,8 @@ $proposition = $proposition->fetchAll();
                 <ul id="table-score">
                     <?php for ($i = 0; $i < count($score); $i++): ?>
                         <li>
-                            <span class="<?php if($users[$score[$i]["user_id"]]["admin"] == 1){echo "top100";} ?>"><?= $users[$score[$i]["user_id"]]["username"] ?></span>
-                            <span><?= ucfirst($categorie[$score[$i]["categorie_id"]]["name"]) ?></span>
+                            <span class="<?php if($score[$i]["admin"] == 1){echo "top100";} ?>"><?= $score[$i]["username"] ?></span>
+                            <span><?= ucfirst($score[$i]["categorie"]) ?></span>
                             <span><?= $score[$i]["score"] ?></span>
                             <span><?= $score[$i]["len"] ?></span>
                             <?php
@@ -162,7 +162,7 @@ $proposition = $proposition->fetchAll();
                 <ul id="table-proposition">
                     <?php for($i = 0; $i < count($proposition); $i++): ?>
                         <li id="proposition_<?=$i?>">       
-                            <span><?= $users[$proposition[$i]['user_id']][1] ?></span>
+                            <span><?= $proposition[$i]['username'] ?></span>
                             <span><?= $proposition[$i]["text"] ?></span>
                             <span><?= $proposition[$i]["date"] ?> <a href="admin-proposition-supprimer.php?id=<?= $proposition[$i]["id"] ?>">✅</a></span>
                         </li>
