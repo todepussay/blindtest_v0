@@ -652,6 +652,10 @@ p {
     overflow-x: auto;
 }
 
+#table-proposition li span a {
+    text-decoration: none;
+}
+
 .recherche {
     width: 100%;
     margin-bottom: 2em;

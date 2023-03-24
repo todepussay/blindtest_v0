@@ -161,7 +161,7 @@ $proposition = $proposition->fetchAll();
 
                 <ul id="table-proposition">
                     <?php for($i = 0; $i < count($proposition); $i++): ?>
-                        <li id="proposition_<?=$i?>">
+                        <li id="proposition_<?=$i?>">       
                             <span><?= $users[$proposition[$i]['user_id']][1] ?></span>
                             <span><?= $proposition[$i]["text"] ?></span>
                             <span><?= $proposition[$i]["date"] ?> <a href="admin-proposition-supprimer.php?id=<?= $proposition[$i]["id"] ?>">✅</a></span>
