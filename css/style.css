@@ -568,11 +568,11 @@ p {
 }
 
 .box-input label {
-    font-size: 3em;
+    font-size: 1.5em;
 }
 
 .box-input input {
-    font-size: 2em;
+    font-size: 1.5em;
     padding: 10px;
     border: solid 1px white;
     border-radius: 10px;
@@ -581,27 +581,36 @@ p {
     text-align: center;
 }
 
+.box-input2 input {
+    margin-top: 0.5em;
+    margin-bottom: 2em;
+}
+
+.box-input select {
+    font-size: 1.5em;
+}
+
 #table-user {
     list-style-type: none;
     
 }
 
 #table-user li {
+    display: flex;
+    align-items: center;
     border: solid 1px white;
     border-radius: 10px;
     padding: 0.5em;
     font-size: 2em;
     margin: 20px;
+    justify-content: space-between;
+    padding-left: 3%;
+    padding-right: 3%;
 }
 
 #table-user li span {
-    width: 32%;
     display: inline-block;
     overflow-x: auto;
-}
-
-#table-user li span a:last-child {
-    padding-left: 20px;
 }
 
 #table-score {
@@ -609,16 +618,19 @@ p {
 }
 
 #table-score li {
+    display: flex;
+    align-items: center;
     border: solid 1px white;
     border-radius: 10px;
     padding: 0.5em;
     font-size: 1.5em;
     margin: 20px;
+    justify-content: space-between;
+    padding-left: 3%;
+    padding-right: 3%;
 }
 
 #table-score li span {
-    width: 15%;
-    display: inline-block;
     overflow-x: auto;
 }
 
@@ -627,11 +639,16 @@ p {
 }
 
 #table-proposition li {
+    display: flex;
+    align-items: center;
     border: solid 1px white;
     border-radius: 10px;
     padding: 0.5em;
     font-size: 1.5em;
     margin: 20px;
+    justify-content: space-between;
+    padding-left: 3%;
+    padding-right: 3%;
 }
 
 #table-proposition li span {
@@ -639,17 +656,8 @@ p {
     overflow-x: auto;
 }
 
-#table-proposition li span:first-child {
-    width: 10%;
-}
-
-#table-proposition li span:last-child {
-    width: 20%;
-}
-
-#table-proposition li span:nth-child(2) {
-    width: 60%;
-    overflow-x: auto;
+#table-proposition li span:nth-child(2){
+    max-width: 60%;
 }
 
 #table-proposition li span a {
@@ -686,6 +694,27 @@ p {
     color: black;
     margin-top: 10px;
     height: 250px;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    height: 0;
+    width: 0;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+h4 {
+    font-size: 2em;
+    margin-bottom: 1em;
+}
+
+input[type=file]{
+    color: white;
 }
 
 @keyframes opacity {

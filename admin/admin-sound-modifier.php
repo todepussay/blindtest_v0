@@ -45,7 +45,7 @@ if (isset($_GET['name']) && isset($_GET['top100']) && isset($_GET['number'])) {
             <h1>Modification</h1>
 
             <div class="btn-box">
-            <a href="admin-sound.php?id=<?= $_GET['origine_id'] ?>" class="btn">Retour</a>
+                <a href="admin-sound.php?id=<?= $_GET['origine_id'] ?>" class="btn">Retour</a>
             </div>
 
             <h2><?= $sound['title'] ?></h2>

@@ -6,6 +6,7 @@ let max_alternatif = 0;
 let max_categorie = 0;
 let max_user = 0;
 let categorie_current = 0;
+let sound_number = 0;
 
 window.onload = function(){
     max_categorie = document.getElementById('max_categorie').value;
@@ -121,6 +122,92 @@ document.getElementById('recherche-user').onkeyup = function(){
             li.appendChild(span3);
 
             document.getElementById('table-user').appendChild(li);
+        }
+    }
+}
+
+document.getElementById('n').onkeyup = function(){
+    let value = document.getElementById('n').value;
+    if (value != ""){
+        if (value < sound_number){
+            for (let i = sound_number; i > value; i--){
+                document.getElementById('sound_' + i).remove();
+            }
+            sound_number = value;
+        }
+        for(let i = 1; i <= value; i++){
+            if (document.getElementById('sound_' + i) == undefined){
+                sound_number++;
+                let div = document.createElement('div');
+                div.id = "sound_" + i;
+                div.className = "box-input box-input2";
+
+                let h4 = document.createElement('h4');
+                h4.innerHTML = "Son " + i;
+
+                div.appendChild(h4);
+
+                let div2 = document.createElement('div');
+
+                let label = document.createElement('label');
+                label.innerHTML = "Titre :";
+                label.for = "title_" + i;
+                let br1 = document.createElement('br');
+
+                let input = document.createElement('input');
+                input.type = "text";
+                input.name = "title_" + i;
+                input.id = "title_" + i;
+
+                div2.appendChild(label);
+                div2.appendChild(br1);
+                div2.appendChild(input);
+
+                div.appendChild(div2);
+
+                let div3 = document.createElement('div');
+
+                let label2 = document.createElement('label');
+                label2.innerHTML = "Top 100 : ";
+                label2.for = "top100_" + i;
+
+                let br2 = document.createElement('br');
+
+                let input2 = document.createElement('input');
+                input2.type = "number";
+                input2.name = "top100_" + i;
+                input2.id = "top100_" + i;
+                input2.min = 0;
+                input2.max = 1;
+
+                div3.appendChild(label2);
+                div3.appendChild(br2);
+                div3.appendChild(input2);
+
+                div.appendChild(div3);
+
+                let div4 = document.createElement('div');
+
+                let label3 = document.createElement('label');
+                label3.innerHTML = "Fichier : ";
+                label3.for = "file_" + i;
+
+                let br3 = document.createElement('br');
+
+                let input3 = document.createElement('input');
+                input3.type = "file";
+                input3.name = "file_" + i;
+                input3.id = "file_" + i;
+
+                div4.appendChild(label3);
+                div4.appendChild(br3);
+                div4.appendChild(input3);
+
+                div.appendChild(div4);
+
+                document.getElementById('sound-box').appendChild(div);
+
+            }
         }
     }
 }

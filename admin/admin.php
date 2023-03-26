@@ -21,7 +21,7 @@ $alternatif = $connect->prepare($alternatif);
 $alternatif->execute();
 $alternatif = $alternatif->fetchAll();
 
-$score_sql = "SELECT score.id_score as 'id', users.username as 'username', users.admin as 'admin' , categories.name as 'categorie', score.score as 'score', score.len as 'len', score.parameters as 'parameters', score.date_score as 'date' FROM score, users, categories WHERE score.user_id = users.id AND score.categorie_id = categories.id";
+$score_sql = "SELECT score.id_score as 'id', users.username as 'username', users.admin as 'admin' , categories.name as 'categorie', score.score as 'score', score.len as 'len', score.parameters as 'parameters', score.date_score as 'date' FROM score, users, categories WHERE score.user_id = users.id AND score.categorie_id = categories.id ORDER BY id DESC";
 $score = $connect->prepare($score_sql);
 $score->execute();
 $score = $score->fetchAll();
@@ -68,6 +68,9 @@ $proposition = $proposition->fetchAll();
                 </div>
                 <div class="tab tab-1" id="tab-proposition" onclick="tab_change('proposition')">
                     <span>Proposition</span>
+                </div>
+                <div class="tab tab-1" id="tab-add" onclick="tab_change('add')">
+                    <span>Ajouter</span>
                 </div>
             </div>
 
@@ -142,13 +145,12 @@ $proposition = $proposition->fetchAll();
                             if ($l[0] == 'all'){
                                 $parameters = "Tous";
                             } else {
-                                for ($i = 0; $i < count($l); $i++){
-                                    $parameters .= ucfirst($l[$i]);
+                                for ($j = 0; $j < count($l); $j++){
+                                    $parameters .= ucfirst($l[$j]);
                                 }
                             }
                             ?>
                             <span><?= $parameters ?></span>
-                            <?php var_dump(count($score));?>
                             <span><?= $score[$i]["date"]; ?></span>
                         </li>
                     <?php endfor; ?>
@@ -169,6 +171,49 @@ $proposition = $proposition->fetchAll();
                         </li>
                     <?php endfor; ?>
                 </ul>
+            </div>
+
+            <div class="tab-selection" id="tab-selection-add">
+
+                <form action="admin-add.php" method="post" id="form_add">
+                
+                    <h2>Ajouter une oeuvre : </h2>
+
+                    <div class="box-input">
+                        <label for="origine_name">Nom de l'oeuvre : </label><br>
+                        <input type="text" name="origine_name" id="origine_name" placeholder="Saisir ici">
+                    </div>
+
+                    <div class="box-input">
+                        <label for="origine_annee">Annee de l'oeuvre : </label><br>
+                        <input type="number" min="1950" max="2050" name="origine_annee" id="origine_annee" placeholder="Année">
+                    </div>
+
+                    <div class="box-input">
+                        <label for="categorie">Choisir la catégorie : </label><br>
+                        <select name="categorie" id="categorie">
+                            <option selected disabled hidden>-- Catégorie --</option>
+                            <?php for($i = 0; $i < count($categorie); $i++): ?>
+                                <option value="<?= $categorie[$i]["id"] ?>"><?= ucfirst($categorie[$i]["name"]) ?></option>
+                            <?php endfor; ?>
+                        </select>
+                    </div>
+
+                    <h2>Ajouter des sons : </h2>
+
+                    <div class="box-input">
+                        <label for="n">Nombre de son : </label><br>
+                        <input type="number" min="1" max="50" placeholder="1" name="n" id="n">
+                    </div>
+
+                    <div id="sound-box">
+                        
+                    </div>
+
+                    <input type="submit" value="Envoyer !" class="btn">
+
+                </form>
+
             </div>
 
         </div>
