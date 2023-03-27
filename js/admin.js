@@ -6,7 +6,7 @@ let max_alternatif = 0;
 let max_categorie = 0;
 let max_user = 0;
 let categorie_current = 0;
-let sound_number = 0;
+let sound_number = 1;
 let alternatif_number = 0;
 
 window.onload = function(){

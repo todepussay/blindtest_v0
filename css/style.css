@@ -581,6 +581,13 @@ p {
     text-align: center;
 }
 
+.box-input2 {
+    width: 80%;
+    margin: auto;
+    margin-top: 1.5em;
+    border-radius: 50px;
+}
+
 .box-input2 input {
     margin-top: 0.5em;
     margin-bottom: 2em;
