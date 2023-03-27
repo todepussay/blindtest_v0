@@ -80,7 +80,7 @@ document.getElementById('recherche-origine').onkeyup = function(){
         if (categorie_current == origine_array[i][1] && origine_array[i][2].toLowerCase().includes(value)){
             let div = document.createElement('div');
             div.className = "tab";
-            div.onclick = "redirect('" + origine_array[i][0] + "')";
+            div.setAttribute("onclick", "redirect('" + origine_array[i][0] + "')");
             div.innerHTML = "<span>" + origine_array[i][2] + "</span>";
             document.getElementById('tabs-origine').appendChild(div);
         }
