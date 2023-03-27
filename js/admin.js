@@ -7,6 +7,7 @@ let max_categorie = 0;
 let max_user = 0;
 let categorie_current = 0;
 let sound_number = 0;
+let alternatif_number = 0;
 
 window.onload = function(){
     max_categorie = document.getElementById('max_categorie').value;
@@ -126,6 +127,43 @@ document.getElementById('recherche-user').onkeyup = function(){
     }
 }
 
+document.getElementById('n_alternatif').onkeyup = function(){
+    let value = document.getElementById('n_alternatif').value;
+    if (value != ""){
+        if (value < alternatif_number){
+            for (let i = alternatif_number; i > value; i--){
+                document.getElementById('alternatif_' + i).remove();
+            }
+            alternatif_number = value;
+        }
+        for(let i = 1; i <= value; i++){
+            if (document.getElementById('alternatif_' + i) == undefined){
+                alternatif_number++;
+                let div = document.createElement('div');
+                div.id = "alternatif_" + i;
+                div.className = "box-input box-input2";
+
+                let label = document.createElement('label');
+                label.innerHTML = "Titre alternatif " + i +" :";
+                label.for = "title_alternatif_" + i;
+
+                let br = document.createElement('br');
+
+                let input = document.createElement('input');
+                input.type = "text";
+                input.name = "title_alternatif_" + i;
+                input.id = "title_alternatif_" + i;
+
+                div.appendChild(label);
+                div.appendChild(br);
+                div.appendChild(input);
+
+                document.getElementById('alternatif-box').appendChild(div);
+            }
+        }
+    }
+}
+
 document.getElementById('n').onkeyup = function(){
     let value = document.getElementById('n').value;
     if (value != ""){
@@ -179,6 +217,7 @@ document.getElementById('n').onkeyup = function(){
                 input2.id = "top100_" + i;
                 input2.min = 0;
                 input2.max = 1;
+                input2.value = 0;
 
                 div3.appendChild(label2);
                 div3.appendChild(br2);

@@ -199,15 +199,42 @@ $proposition = $proposition->fetchAll();
                         </select>
                     </div>
 
+                    <h2>Titres alternatifs :</h2>
+
+                    <div class="box-input">
+                        <label for="n_alternatif">Nombre de titre alternatifs : </label><br>
+                        <input type="number" min="0" max="10" value="0" name="n_alternatif" id="n_alternatif">
+                    </div>
+
+                    <div id="alternatif-box">
+                                                
+                    </div>
+
+                    
                     <h2>Ajouter des sons : </h2>
 
                     <div class="box-input">
                         <label for="n">Nombre de son : </label><br>
-                        <input type="number" min="1" max="50" placeholder="1" name="n" id="n">
+                        <input type="number" min="1" max="50" value="1" name="n" id="n">
                     </div>
-
                     <div id="sound-box">
                         
+                        <div id="sound_1" class="box-input box-input2">
+                            <h4>Son 1 :</h4>
+                            <div>
+                                <label for="title_1">Titre :</label><br>
+                                <input type="text" name="title_1" id="title_1">
+                            </div>
+                            <div>
+                                <label for="top100_1">Top 100 :</label><br>
+                                <input type="number" name="top100_1" id="top100_1" min="0" max="1" value="0">
+                            </div>
+                            <div>
+                                <label for="file_1">Fichier : </label><br>
+                                <input type="file" name="file_1" id="file_1">
+                            </div>
+                        </div>
+
                     </div>
 
                     <input type="submit" value="Envoyer !" class="btn">
