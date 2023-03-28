@@ -12,6 +12,7 @@
             <?php if($_SESSION['admin'] == 1): ?>
                 <a href="/blindtest/admin/admin.php" class="btn"><ion-icon name="settings-outline"></ion-icon></a>
             <?php endif; ?>
+            <a href="/blindtest/proposition.php" class="btn"><ion-icon name="add-circle-outline"></ion-icon></a>
             <a href="/blindtest/profile.php" class="btn"><ion-icon name="person-outline"></ion-icon></a>
             <a href="/blindtest/logout.php" class="btn"><ion-icon name="log-out-outline"></ion-icon></a>
         <?php else : ?>

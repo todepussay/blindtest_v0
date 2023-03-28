@@ -228,7 +228,8 @@ $proposition = $proposition->fetchAll();
                             </div>
                             <div>
                                 <label for="top100_1">Top 100 :</label><br>
-                                <input type="number" name="top100_1" id="top100_1" min="0" max="1" value="0">
+                                <input type="number" name="top100_1" id="top100_1" min="0" max="1" value="0"><br>
+                                <input type="file" name="file[]" id="file">
                             </div>
                         </div>
 

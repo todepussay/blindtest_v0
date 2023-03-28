@@ -9,6 +9,12 @@ $origine->execute();
 $origine = $origine->fetchAll();
 $origine = $origine[0];
 
+$sound = "SELECT * FROM sound WHERE origine_id = :id";
+$sound = $connect->prepare($sound);
+$sound->bindParam(':id', $_GET['id']);
+$sound->execute();
+$sound = $sound->fetchAll();
+
 if (isset($_GET['yes'])) {
     $delete_sound = "DELETE FROM sound WHERE origine_id = :id";
     $delete_sound = $connect->prepare($delete_sound);
@@ -19,6 +25,10 @@ if (isset($_GET['yes'])) {
     $delete_origine = $connect->prepare($delete_origine);
     $delete_origine->bindParam(':id', $_GET['id']);
     $delete_origine->execute();
+
+    for ($i = 0; $i < count($sound); $i++) {
+        unlink('../opening/' . $sound[$i]['id'] . '.m4a');
+    }
     
     header('Location: admin.php');
 }
@@ -53,6 +63,7 @@ if (isset($_GET['yes'])) {
 
             <form action="" method="get">
                 <input type="hidden" name="yes" value="1">
+                <input type="hidden" name="id" value="<?= $_GET['id'] ?>">
                 
                 <div class="btn-box">
                     <button type="submit" class="btn highlight">Oui</button>

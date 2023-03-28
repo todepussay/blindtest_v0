@@ -225,6 +225,25 @@ document.getElementById('n').onkeyup = function(){
 
                 div.appendChild(div3);
 
+                let div4 = document.createElement('div');
+
+                let label3 = document.createElement('label');
+                label3.innerHTML = "Fichier :";
+                label3.for = "file";
+
+                let br3 = document.createElement('br');
+
+                let input3 = document.createElement('input');
+                input3.type = "file";
+                input3.name = "file[]";
+                input3.id = "file";
+
+                div4.appendChild(label3);
+                div4.appendChild(br3);
+                div4.appendChild(input3);
+
+                div.appendChild(div4);
+
                 document.getElementById('sound-box').appendChild(div);
 
             }
