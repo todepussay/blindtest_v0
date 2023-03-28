@@ -732,6 +732,10 @@ audio {
     margin: 1em;
 }
 
+#profils h1{
+    text-align: left;
+}
+
 @keyframes opacity {
     0% {
         opacity: 0;
