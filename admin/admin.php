@@ -176,7 +176,7 @@ $proposition = $proposition->fetchAll();
 
             <div class="tab-selection" id="tab-selection-add">
 
-                <form action="admin-add.php" method="post" id="form_add">
+                <form action="admin-add.php" method="post" id="form_add" enctype="multipart/form-data">
                 
                     <h2>Ajouter une oeuvre : </h2>
 
@@ -229,10 +229,6 @@ $proposition = $proposition->fetchAll();
                             <div>
                                 <label for="top100_1">Top 100 :</label><br>
                                 <input type="number" name="top100_1" id="top100_1" min="0" max="1" value="0">
-                            </div>
-                            <div>
-                                <label for="file_1">Fichier : </label><br>
-                                <input type="file" name="file_1" id="file_1">
                             </div>
                         </div>
 

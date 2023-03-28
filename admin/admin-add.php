@@ -38,6 +38,8 @@ if (isset($_POST['n']) && isset($_POST['origine_name'])){
 
         // }
 
+        $array_id = [];
+
         for ($i = 1; $i <= $_POST['n']; $i++){
 
             // $insert_sound = "INSERT INTO sound (origine_id, title, number, top100) VALUES (:origine_id, :title, :number, :top100)";
@@ -56,17 +58,9 @@ if (isset($_POST['n']) && isset($_POST['origine_name'])){
             $id_sound->execute();
             $id_sound = $id_sound->fetchAll();
             $id_sound = $id_sound[0]['id'];
+            
+            $array_id.push($id_sound);
 
-            $uploaddir = "../opening/";
-            $uploadfile = $uploaddir . basename($_FILES['file_' . $i]['name']);
-
-            if (move_uploaded_file($_FILES['file_' . $i]['tmp_name'], $uploadfile)) {
-                echo "Le fichier est valide, et a été téléchargé
-                avec succès. Voici plus d'informations :\n";
-            } else {
-                echo "Attaque potentielle par téléchargement de fichiers.
-                Voici plus d'informations :\n";
-            }
         }
 
     } else {
@@ -95,11 +89,22 @@ if (isset($_POST['n']) && isset($_POST['origine_name'])){
 
             <h1>Ajouter :</h1>
 
-            <p>Vous avez ajouté une nouvelle oeuvre avec succès.</p>
-
-            <?php if(isset($erreur)): ?>
+            <?php if(!isset($erreur)): ?>
+                <p>Vous avez ajouté une nouvelle oeuvre avec succès.</p>
+            <?php else : ?>
                 <p><?= $erreur ?></p>
             <?php endif; ?>
+            
+            <h2>Ajouter le son :</h2>
+
+            <form action="" method="post">
+                <div class="input-box" id="file_add">
+
+                </div>
+                
+                <input type="hidden" name="n" value="<?= $_POST['n'] ?>">
+                <input class="btn" type="submit" value="<?php if($current < $_POST['n']){echo 'Suivant';} else {echo 'Envoyer !';} ?>">
+            </form>
 
             <div class="btn-box">
                 <a href="admin.php" class="btn">Retour</a>
@@ -108,5 +113,6 @@ if (isset($_POST['n']) && isset($_POST['origine_name'])){
         </div>
     </div>
     
+    <script src="../js/admin.js"></script>
 </body>
 </html>
