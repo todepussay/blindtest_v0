@@ -3,7 +3,7 @@
 session_start();
 
 if ($_SESSION['admin'] == 0 || !isset($_SESSION['id']) || !isset($_SESSION['admin']) || isset($_SESSION['invite']) || !isset($_SESSION['admin_user'])) {
-    header('Location: ../index.php');
+    header('Location: login.php');
 }
 
 try {
