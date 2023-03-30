@@ -100,7 +100,7 @@ $alternatif_array = $alternatif->fetchAll();
 
             <div class="bar">
                 
-                <h2 id="score-game">Score : <span id="score">0</span></h1>
+                <h2 id="score-game">Score : <span id="score">0</span></h2>
 
                 <div id="time-box">
                     <span id="time">30</span>
