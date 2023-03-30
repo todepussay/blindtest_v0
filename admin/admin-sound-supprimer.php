@@ -15,6 +15,8 @@ if (isset($_GET['yes'])) {
     $delete->bindParam(':id', $_GET['id']);
     $delete->execute();
 
+    unlink('../opening/' . $sound['id'] . '.m4a');
+
     header('Location: admin-sound.php?id=' . $_GET['origine_id']);
     exit();
 }

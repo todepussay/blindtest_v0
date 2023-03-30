@@ -228,15 +228,15 @@ document.getElementById('n').onkeyup = function(){
                 let div4 = document.createElement('div');
 
                 let label3 = document.createElement('label');
-                label3.innerHTML = "Fichier : ";
-                label3.for = "file_" + i;
+                label3.innerHTML = "Fichier :";
+                label3.for = "file";
 
                 let br3 = document.createElement('br');
 
                 let input3 = document.createElement('input');
                 input3.type = "file";
-                input3.name = "file_" + i;
-                input3.id = "file_" + i;
+                input3.name = "file[]";
+                input3.id = "file";
 
                 div4.appendChild(label3);
                 div4.appendChild(br3);
@@ -249,4 +249,8 @@ document.getElementById('n').onkeyup = function(){
             }
         }
     }
+}
+
+function next(){
+    
 }

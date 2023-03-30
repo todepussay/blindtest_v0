@@ -10,6 +10,12 @@ if (isset($_SESSION['id'])) {
     $sql->execute();
     $table = $sql->fetchAll();
     $user = $table[0];
+
+    $score = "SELECT * FROM scores WHERE user_id = :id";
+    $score->bindValue(':id', $_SESSION['id']);
+    $score->execute();
+    $score = $score->fetchAll();
+
 } else {
     header('Location: login.php');
 }
@@ -31,8 +37,12 @@ if (isset($_SESSION['id'])) {
     <?php require('header.php'); ?>
 
     <div class="container">
-        <div class="box">
-            <h1>Profils de <?= $user['username'] ?></h1>
+        <div class="box" id="profils">
+
+            <h1><?= ucfirst($user['username']) ?></h1>
+
+
+
         </div>
     </div>
     
