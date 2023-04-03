@@ -1,5 +1,47 @@
 <?php
 
+session_start();
+
+require "connect.php";
+
+if(!isset($_SESSION['id']) && !isset($_SESSION['invite'])) {
+    header('Location: index.php');
+}
+
+if (!isset($_POST['categorie']) || $_POST['categorie'] == -2) {
+    header('Location: index.php');
+}
+
+$categorie_id = $_POST['categorie'];
+
+$categorie = $connect->prepare("SELECT name FROM categories WHERE id = :id");
+$categorie->bindValue(':id', $categorie_id);
+$categorie->execute();
+$categorie = $categorie->fetchAll();
+$categorie_name = $categorie[0]['name'];
+
+$question = $connect->prepare("SELECT * FROM question WHERE categorie_id = :categorie_id");
+$question->bindValue(':categorie_id', $categorie_id); 
+$question->execute();
+$question = $question->fetchAll();
+
+$origine = $connect->prepare("SELECT * FROM origine WHERE categorie_id = :categorie_id");
+$origine->bindValue(':categorie_id', $categorie_id);
+$origine->execute();
+$origine = $origine->fetchAll();
+
+$sound = "SELECT * FROM sound, origine WHERE sound.origine_id = origine.id AND origine.categorie_id = :categorie_id";
+$sound = $connect->prepare($sound);
+$sound->bindValue(':categorie_id', $categorie_id);
+$sound->execute();
+$sound = $sound->fetchAll();
+
+$alternatif = "SELECT * FROM alternatif, origine WHERE alternatif.origine_id = origine.id AND origine.categorie_id = :categorie_id";
+$alternatif = $connect->prepare($alternatif);
+$alternatif->bindValue(':categorie_id', $categorie_id);
+$alternatif->execute();
+$alternatif = $alternatif->fetchAll();
+
 
 
 ?>
@@ -58,6 +100,21 @@
             </div>
 
         </div>
+    </div>
+
+    <div id="del">
+
+        <input type="hidden" id="origine_number" value="<?= count($origine) ?>">
+        <input type="hidden" id="sound_number" value="<?= count($sound) ?>">
+        <input type="hidden" id="alternatif_number" value="<?= count($alternatif) ?>">
+        <input type="hidden" id="question_number" value="<?= count($question) ?>">
+
+        <?php foreach($origine as $origine_value): ?>
+            <?php foreach($origine_value as $value): ?>
+                <input type="hidden" value="<?= $value?>">
+            <?php endforeach; ?>
+        <?php endforeach; ?>
+
     </div>
     
     <script src="js/game2.js"></script>
