@@ -30,7 +30,7 @@ $origine->bindValue(':categorie_id', $categorie_id);
 $origine->execute();
 $origine = $origine->fetchAll();
 
-$sound = "SELECT * FROM sound, origine WHERE sound.origine_id = origine.id AND origine.categorie_id = :categorie_id";
+$sound = "SELECT * FROM sound WHERE sound.id IN (SELECT sound.id FROM sound, origine WHERE sound.origine_id = origine.id AND origine.categorie_id = :categorie_id)";
 $sound = $connect->prepare($sound);
 $sound->bindValue(':categorie_id', $categorie_id);
 $sound->execute();
@@ -42,7 +42,17 @@ $alternatif->bindValue(':categorie_id', $categorie_id);
 $alternatif->execute();
 $alternatif = $alternatif->fetchAll();
 
+$origine_column = [];
 
+for($i = 0; $i < count(array_keys($origine[0])); $i = $i + 2){
+    $origine_column[] = array_keys($origine[0])[$i];
+}
+
+$sound_column = [];
+
+for($i = 0; $i < count(array_keys($sound[0])); $i = $i + 2){
+    $sound_column[] = array_keys($sound[0])[$i];
+}
 
 ?>
 
@@ -111,16 +121,46 @@ $alternatif = $alternatif->fetchAll();
 
     <div id="del">
 
-        <input type="hidden" id="origine_number" value="<?= count($origine) ?>">
-        <input type="hidden" id="sound_number" value="<?= count($sound) ?>">
+        <div id="origine">
+
+            <input type="hidden" id="origine_number" value="<?= count($origine) ?>">
+            <input type="hidden" id="origine_column_number" value="<?= count(array_keys($origine[0]))/2 ?>">
+
+            <?php for($i = 0; $i < count($origine_column); $i++): ?>
+                <input type="hidden" id="origine_column_<?= $i ?>" value="<?= $origine_column[$i] ?>">
+            <?php endfor; ?>
+
+            <?php for($i = 0; $i < count($origine); $i++): ?>
+                <?php for($j = 0; $j < count($origine[$i])/2; $j++): ?>
+                    <input type="hidden" id="origine_<?= $origine_column[$j] ?>_<?= $i ?>" value="<?= $origine[$i][$j] ?>">
+                <?php endfor; ?>
+            <?php endfor; ?>
+
+        </div>
+
+        <div id="sound">
+
+            <input type="hidden" id="sound_number" value="<?= count($sound) ?>">
+            <input type="hidden" id="sound_column_number" value="<?= count(array_keys($sound[0]))/2 ?>">
+
+            <?php for($i = 0; $i < count($sound_column); $i++): ?>
+                <input type="hidden" id="origine_column_<?= $i ?>" value="<?= $sound_column[$i] ?>">
+            <?php endfor; ?>
+
+            <?php for($i = 0; $i < count($sound); $i++): ?>
+                <?php for($j = 0; $j < count($sound[$i])/2; $j++): ?>
+                    <input type="hidden" id="sound_<?= $sound_column[$j] ?>_<?= $i ?>" value="<?= $sound[$i][$j] ?>">
+                <?php endfor; ?>
+            <?php endfor; ?>
+
+        </div>
+
         <input type="hidden" id="alternatif_number" value="<?= count($alternatif) ?>">
         <input type="hidden" id="question_number" value="<?= count($question) ?>">
 
-        <?php foreach($origine as $origine_value): ?>
-            <?php foreach($origine_value as $value): ?>
-                <input type="hidden" value="<?= $value?>">
-            <?php endforeach; ?>
-        <?php endforeach; ?>
+        
+
+        
 
     </div>
     
