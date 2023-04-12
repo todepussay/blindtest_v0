@@ -36,11 +36,35 @@ $sound->bindValue(':categorie_id', $categorie_id);
 $sound->execute();
 $sound = $sound->fetchAll();
 
-$alternatif = "SELECT * FROM alternatif, origine WHERE alternatif.origine_id = origine.id AND origine.categorie_id = :categorie_id";
+$alternatif = "SELECT * FROM alternatif WHERE alternatif.id IN (SELECT alternatif.id FROM alternatif, origine WHERE alternatif.origine_id = origine.id AND origine.categorie_id = :categorie_id)";
 $alternatif = $connect->prepare($alternatif);
 $alternatif->bindValue(':categorie_id', $categorie_id);
 $alternatif->execute();
 $alternatif = $alternatif->fetchAll();
+
+$game_sound = "SELECT sound.id FROM origine, sound, categories WHERE categories.id = origine.categorie_id AND sound.origine_id = origine.id AND categories.id = :categorie_id";
+
+if ($_POST['top100'] == 1){
+    $game_sound .= " AND sound.top100 = 1";
+}
+if ($_POST['premier'] == 1){
+    $game_sound .= " AND sound.number = 1";
+    $premier = 1;
+}
+if ($_POST['av2000'] == 1){
+    $game_sound .= " AND origine.annee < 2000";
+}
+if ($_POST['ap2000'] == 1){
+    $game_sound .= " AND origine.annee > 2000";
+}
+
+$game_sound .= " ORDER BY RAND() LIMIT :number ";
+
+$game_sound = $connect->prepare($game_sound);
+$game_sound->bindValue(':categorie_id', $categorie_id);
+$game_sound->bindValue(':number', $_POST['number'], PDO::PARAM_INT);
+$game_sound->execute();
+$game_sound = $game_sound->fetchAll();
 
 $origine_column = [];
 
@@ -52,6 +76,18 @@ $sound_column = [];
 
 for($i = 0; $i < count(array_keys($sound[0])); $i = $i + 2){
     $sound_column[] = array_keys($sound[0])[$i];
+}
+
+$alternatif_column = [];
+
+for($i = 0; $i < count(array_keys($alternatif[0])); $i = $i + 2){
+    $alternatif_column[] = array_keys($alternatif[0])[$i];
+}
+
+$question_column = [];
+
+for($i = 0; $i < count(array_keys($question[0])); $i = $i + 2){
+    $question_column[] = array_keys($question[0])[$i];
 }
 
 ?>
@@ -144,7 +180,7 @@ for($i = 0; $i < count(array_keys($sound[0])); $i = $i + 2){
             <input type="hidden" id="sound_column_number" value="<?= count(array_keys($sound[0]))/2 ?>">
 
             <?php for($i = 0; $i < count($sound_column); $i++): ?>
-                <input type="hidden" id="origine_column_<?= $i ?>" value="<?= $sound_column[$i] ?>">
+                <input type="hidden" id="sound_column_<?= $i ?>" value="<?= $sound_column[$i] ?>">
             <?php endfor; ?>
 
             <?php for($i = 0; $i < count($sound); $i++): ?>
@@ -155,12 +191,49 @@ for($i = 0; $i < count(array_keys($sound[0])); $i = $i + 2){
 
         </div>
 
-        <input type="hidden" id="alternatif_number" value="<?= count($alternatif) ?>">
-        <input type="hidden" id="question_number" value="<?= count($question) ?>">
+        <div id="alternatif">
 
-        
+            <input type="hidden" id="alternatif_number" value="<?= count($alternatif) ?>">
+            <input type="hidden" id="alternatif_column_number" value="<?= count(array_keys($alternatif[0]))/2 ?>">
 
-        
+            <?php for($i = 0; $i < count($alternatif_column); $i++): ?>
+                <input type="hidden" id="alternatif_column_<?= $i ?>" value="<?= $alternatif_column[$i] ?>">
+            <?php endfor; ?>
+
+            <?php for($i = 0; $i < count($alternatif); $i++): ?>
+                <?php for($j = 0; $j < count($alternatif[$i])/2; $j++): ?>
+                    <input type="hidden" id="alternatif_<?= $alternatif_column[$j] ?>_<?= $i ?>" value="<?= $alternatif[$i][$j] ?>">
+                <?php endfor; ?>
+            <?php endfor; ?>
+
+        </div>
+
+        <div id="question">
+
+            <input type="hidden" id="question_number" value="<?= count($question) ?>">
+            <input type="hidden" id="question_column_number" value="<?= count(array_keys($question[0]))/2 ?>">
+
+            <?php for($i = 0; $i < count($question_column); $i++): ?>
+                <input type="hidden" id="question_column_<?= $i ?>" value="<?= $question_column[$i] ?>">
+            <?php endfor; ?>
+
+            <?php for($i = 0; $i < count($question); $i++): ?>
+                <?php for($j = 0; $j < count($question[$i])/2; $j++): ?>
+                    <input type="hidden" id="question_<?= $question_column[$j] ?>_<?= $i ?>" value="<?= $question[$i][$j] ?>">
+                <?php endfor; ?>
+            <?php endfor; ?>
+
+        </div>
+
+        <div id="game_sound">
+
+            <input type="hidden" id="game_sound_number" value="<?= $_POST["number"] ?>">
+
+            <?php for($i = 0; $i < $_POST['number']; $i++): ?>
+                <input type="hidden" id="game_sound_<?= $i ?>" value="<?= $game_sound[$i]["id"] ?>">
+            <?php endfor; ?>
+
+        </div>
 
     </div>
     
