@@ -1,5 +1,24 @@
 <?php
 
+session_start();
+
+require('connect.php');
+
+if(!isset($_SESSION['id']) && !isset($_SESSION['invite'])) {
+    header('Location: index.php');
+}
+
+if (!isset($_POST['categorie']) || $_POST['categorie'] == -2) {
+    header('Location: index.php');
+}
+
+$categorie_id = $_POST['categorie'];
+
+$categorie_sql = $connect->prepare("SELECT name FROM categories WHERE id = :id");
+$categorie_sql->bindValue(':id', $categorie_id);
+$categorie_sql->execute();
+$categorie_sql = $categorie_sql->fetchAll();
+$categorie_name = ucfirst($categorie_sql[0]['name']);
 
 
 ?>
@@ -59,6 +78,14 @@
 
         </div>
     </div>
+
+    <div class="sup">
+        <div id="sup_question">
+
+        </div>
+    </div>
+
+
     
     <script src="js/game2.js"></script>
 </body>
