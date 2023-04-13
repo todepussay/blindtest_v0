@@ -30,7 +30,7 @@ $origine->bindValue(':categorie_id', $categorie_id);
 $origine->execute();
 $origine = $origine->fetchAll();
 
-$sound = "SELECT * FROM sound WHERE sound.id IN (SELECT sound.id FROM sound, origine WHERE sound.origine_id = origine.id AND origine.categorie_id = :categorie_id)";
+$sound = "SELECT * FROM sound WHERE sound.id_sound IN (SELECT sound.id_sound FROM sound, origine WHERE sound.origine_id = origine.id AND origine.categorie_id = :categorie_id)";
 $sound = $connect->prepare($sound);
 $sound->bindValue(':categorie_id', $categorie_id);
 $sound->execute();
@@ -42,7 +42,7 @@ $alternatif->bindValue(':categorie_id', $categorie_id);
 $alternatif->execute();
 $alternatif = $alternatif->fetchAll();
 
-$game_sound = "SELECT sound.id FROM origine, sound, categories WHERE categories.id = origine.categorie_id AND sound.origine_id = origine.id AND categories.id = :categorie_id";
+$game_sound = "SELECT sound.id_sound FROM origine, sound, categories WHERE categories.id = origine.categorie_id AND sound.origine_id = origine.id AND categories.id = :categorie_id";
 
 if ($_POST['top100'] == 1){
     $game_sound .= " AND sound.top100 = 1";
@@ -105,7 +105,7 @@ for($i = 0; $i < count(array_keys($question[0])); $i = $i + 2){
 
     <?php require "header.php"; ?>
 
-    <div class="container-overlay">
+    <!-- <div class="container-overlay">
         <div id="begin" class="begin">
 
             <h2 id="title-begin">Le jeu va commencer ! <br> Attention le son peut être très fort selon le générique.</h2>
@@ -117,7 +117,7 @@ for($i = 0; $i < count(array_keys($question[0])); $i = $i + 2){
             <button class="btn" id="btn-begin">Commencer !</button>
 
         </div>
-    </div>
+    </div> -->
 
     <div class="container" id="container-game">
 
@@ -141,8 +141,24 @@ for($i = 0; $i < count(array_keys($question[0])); $i = $i + 2){
             </div>
 
             <div id="question-box">
-                <span class="question"></span>
-                <span></span> 
+                
+            </div>
+
+            <div class="input-box-proposition">
+                <div class="input-box" id="animation">
+                    <ion-icon id="search-ico" name="search-outline"></ion-icon>
+                    <input autocomplete="off" placeholder="Saisir votre proposition" type="search" id="search">
+                    <ion-icon id="del" name="close-outline"></ion-icon>
+                    <ion-icon id="volume-ico-on" name="volume-high-outline" onclick="change_volume()"></ion-icon>
+                    <ion-icon id="volume-ico-off"name="volume-mute-outline" onclick="change_volume()"></ion-icon>
+                </div>
+                
+                <ul class="proposition" id="proposition">
+                </ul>
+            </div>
+
+            <div class="btn-box">
+                <button class="btn" id="skip">Passer</button>
             </div>
 
         </div>
@@ -230,7 +246,7 @@ for($i = 0; $i < count(array_keys($question[0])); $i = $i + 2){
             <input type="hidden" id="game_sound_number" value="<?= $_POST["number"] ?>">
 
             <?php for($i = 0; $i < $_POST['number']; $i++): ?>
-                <input type="hidden" id="game_sound_<?= $i ?>" value="<?= $game_sound[$i]["id"] ?>">
+                <input type="hidden" id="game_sound_<?= $i ?>" value="<?= $game_sound[$i]["id_sound"] ?>">
             <?php endfor; ?>
 
         </div>

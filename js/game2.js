@@ -25,6 +25,14 @@ let all_question = [];
 let max_round = document.getElementById('game_sound_number').value;
 let game_sound = [];
 
+let question_current = 0;
+
+let search = document.getElementById('search');
+
+let proposition = document.getElementById('proposition');
+
+let result = 0;
+
 window.onload = function() {
 
     // Get all origine column
@@ -121,15 +129,91 @@ window.onload = function() {
 
     document.getElementById('question').remove();
 
-    // console.log(all_question);
+    console.log(all_question);
 
     // Get all game sound
 
     for (let i = 0; i < max_round; i++) {
-        game_sound.push(document.getElementById('game_sound_' + i).value);
+        
+        let elt = document.getElementById('game_sound_' + i).value;
+        
+        let temp = {};
+
+        for (let j = 0; j < all_sound.length; j++) {
+            if (all_sound[j]["id_sound"] == elt){
+                for (let k = 0; k < sound_column_number; k++) {
+                    temp[sound_column[k]] = all_sound[j][sound_column[k]];
+                }
+            }
+        }
+
+        for (let j = 0; j < all_origine.length; j++) {
+            if (all_origine[j]["id"] == temp["origine_id"]){
+                for (let k = 0; k < origine_column_number; k++) {
+                    temp[origine_column[k]] = all_origine[j][origine_column[k]];
+                }
+            }
+        }
+
+        temp["alternatif"] = [];
+
+        for (let j = 0; j < all_alternatif.length; j++) {
+            if (all_alternatif[j]["origine_id"] == temp["id"]){
+                temp["alternatif"].push(all_alternatif[j]["name"]);
+            }
+        }
+
+        game_sound.push(temp);
+
     }
 
     document.getElementById('game_sound').remove();
 
     console.log(game_sound);
+
+    // Print first question
+
+    for (let i = 0; i < all_question.length; i++){
+        if (all_question[i]["level"] == question_current){
+            let span = document.createElement('span');
+            span.id = 'question_' + all_question[i]["id_question"];
+            span.className = "question";
+            span.innerHTML = all_question[i]["question"];
+
+            let span2 = document.createElement('span');
+            span2.id = "question_answer_" + all_question[i]["id_question"];
+            span2.className = "question";
+
+            let br = document.createElement('br');
+
+            document.getElementById('question-box').appendChild(span);
+            document.getElementById('question-box').appendChild(span2);
+            document.getElementById('question-box').appendChild(br);
+        }
+    }
 }
+
+search.addEventListener('keyup', function() {
+    
+    let search_value = search.value;
+
+    let keyCode = event.keyCode;
+
+    if (search_value.length == 0){
+        proposition.innerHTML = "";
+    }
+    else {
+        if (search_value.length > 3){
+            if (keyCode == 13){
+
+            }
+            else {
+
+                let search_value2 = search_value.toLowerCase()
+
+                
+            }
+        }
+    }
+    
+});
