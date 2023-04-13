@@ -201,19 +201,49 @@ search.addEventListener('keyup', function() {
 
     if (search_value.length == 0){
         proposition.innerHTML = "";
+        proposition.style.display = "none";
     }
     else {
-        if (search_value.length > 3){
-            if (keyCode == 13){
 
-            }
-            else {
+        for (let i = 0; i < all_question.length; i++){
+            if (all_question[i]["level"] == question_current){
+                if (all_question[i]["appear"] != 0){
+                    if (search_value.length > all_question[i]["appear"]){
+                        
+                        for (j = 0; j < all_sound.length)
 
-                let search_value2 = search_value.toLowerCase()
-
-                
+                    }
+                }
             }
         }
+
+        if (proposition_possible){
+            
+            let proposition_array = [];
+
+            for (let i = 0; i < game_sound.length; i++){
+                if (game_sound[i]["name"].toLowerCase().includes(search_value.toLowerCase())){
+                    proposition_array.push(all_sound[i]);
+                }
+            }
+
+            if (proposition_array.length > 0){
+                proposition.innerHTML = "";
+                proposition.style.display = "block";
+
+                for (let i = 0; i < proposition_array.length; i++){
+
+                    let li_temp = document.createElement('li');
+                    li_temp.setAttribute('onclick', "li_proposition(`"+proposition_array[i]["id"]+"`)");
+                    li_temp.innerHTML = proposition_array[i]["name"];
+                    document.getElementById('proposition').appendChild(li_temp);
+                    proposition_temp.push(title_array[i][0]);
+
+                }
+            }
+
+        }
+
     }
     
 });
