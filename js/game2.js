@@ -24,6 +24,7 @@ let all_question = [];
 
 let max_round = document.getElementById('game_sound_number').value;
 let game_sound = [];
+let round = 1;
 
 let question_current = 0;
 
@@ -59,29 +60,6 @@ window.onload = function() {
 
     // console.log(all_origine);
 
-    // Get all sound column
-
-    for (let i = 0; i < sound_column_number; i++) {
-        sound_column.push(document.getElementById('sound_column_' + i).value);
-    }
-
-    // Get all sound
-
-    for (let i = 0; i < sound_number; i++) {
-
-        let sound_temp = {};
-
-        for (let j = 0; j < sound_column_number; j++) {
-            sound_temp[sound_column[j]] = document.getElementById('sound_' + sound_column[j] + '_' + i).value;
-        }
-
-        all_sound.push(sound_temp);
-
-    }
-
-    document.getElementById('sound').remove();
-
-    // console.log(all_sound);
 
     // Get all alternatif column
 
@@ -107,6 +85,47 @@ window.onload = function() {
 
     // console.log(all_alternatif);
 
+    // Get all sound column
+
+    for (let i = 0; i < sound_column_number; i++) {
+        sound_column.push(document.getElementById('sound_column_' + i).value);
+    }
+
+    // Get all sound
+
+    for (let i = 0; i < sound_number; i++) {
+
+        let sound_temp = {};
+
+        for (let j = 0; j < sound_column_number; j++) {
+            sound_temp[sound_column[j]] = document.getElementById('sound_' + sound_column[j] + '_' + i).value;
+        }
+
+        for (let j = 0; j < all_origine.length; j++) {
+            if (all_origine[j]["id"] == sound_temp["origine_id"]){
+                for (let k = 0; k < origine_column_number; k++) {
+                    sound_temp[origine_column[k]] = all_origine[j][origine_column[k]];
+                }
+            }
+        }
+
+        sound_temp["alternatif"] = [];
+
+        for (let j = 0; j < all_alternatif.length; j++) {
+            if (all_alternatif[j]["origine_id"] == sound_temp["id"]){
+                sound_temp["alternatif"].push(all_alternatif[j]["name"]);
+            }
+        }
+
+        all_sound.push(sound_temp);
+
+    }
+
+    document.getElementById('sound').remove();
+
+    // console.log(all_sound);
+
+
     // Get all question column
 
     for (let i = 0; i < question_column_number; i++) {
@@ -129,45 +148,25 @@ window.onload = function() {
 
     document.getElementById('question').remove();
 
-    console.log(all_question);
+    // console.log(all_question);
 
     // Get all game sound
 
     for (let i = 0; i < max_round; i++) {
-        
-        let elt = document.getElementById('game_sound_' + i).value;
-        
-        let temp = {};
+
+        let game_sound_id = document.getElementById('game_sound_' + i).value;
 
         for (let j = 0; j < all_sound.length; j++) {
-            if (all_sound[j]["id_sound"] == elt){
-                for (let k = 0; k < sound_column_number; k++) {
-                    temp[sound_column[k]] = all_sound[j][sound_column[k]];
-                }
+
+            if (all_sound[j]["id_sound"] == game_sound_id){
+
+                game_sound.push(all_sound[j]);
+
             }
         }
-
-        for (let j = 0; j < all_origine.length; j++) {
-            if (all_origine[j]["id"] == temp["origine_id"]){
-                for (let k = 0; k < origine_column_number; k++) {
-                    temp[origine_column[k]] = all_origine[j][origine_column[k]];
-                }
-            }
-        }
-
-        temp["alternatif"] = [];
-
-        for (let j = 0; j < all_alternatif.length; j++) {
-            if (all_alternatif[j]["origine_id"] == temp["id"]){
-                temp["alternatif"].push(all_alternatif[j]["name"]);
-            }
-        }
-
-        game_sound.push(temp);
-
     }
 
-    document.getElementById('game_sound').remove();
+    // document.getElementById('game_sound').remove();
 
     console.log(game_sound);
 
@@ -199,6 +198,8 @@ search.addEventListener('keyup', function() {
 
     let keyCode = event.keyCode;
 
+    proposition_array = [];
+
     if (search_value.length == 0){
         proposition.innerHTML = "";
         proposition.style.display = "none";
@@ -206,28 +207,58 @@ search.addEventListener('keyup', function() {
     else {
 
         for (let i = 0; i < all_question.length; i++){
-            if (all_question[i]["level"] == question_current){
-                if (all_question[i]["appear"] != 0){
-                    if (search_value.length > all_question[i]["appear"]){
+            if (all_question[i]["level"] == question_current && all_question[i]["appear"] != 0 && search_value.length > all_question[i]["appear"]){
                         
-                        for (j = 0; j < all_sound.length; j++){
+                for (j = 0; j < all_sound.length; j++){
 
-                            let value = all_sound[j];
+                    let value = all_sound[j][all_question[i]["target"]];
 
-                            console.log(value);
+                    if (value.toLowerCase().includes(search_value) && !proposition_array.includes(all_sound[j][all_question[i]["target"]])){
 
-                            if (value.toLowerCase().includes(search_value)){
-                                proposition_array.push(all_sound[j]["name"]);
-                            }
-                        }
-
+                        proposition_array.push(all_sound[j][all_question[i]["target"]]);
                     }
                 }
             }
         }
 
-        console.log(proposition_array);
+        proposition.innerHTML = "";
 
+        if (proposition_array.length == 0){
+            proposition.style.display = "none";
+        } 
+        else {
+            proposition.style.display = "block";
+
+            for (let i = 0; i < proposition_array.length; i++){
+
+                let li = document.createElement('li');
+                li.className = "proposition_li";
+                proposition.appendChild(li);
+                li.innerHTML = proposition_array[i];
+
+            }
+        }
+    } 
+});
+
+proposition.addEventListener('click', function(e) {
+
+    search.value = e.target.innerHTML;
+
+    for (let i = 0; i < all_question.length; i++){
+
+        if (all_question[i]["level"] == question_current && all_question[i]["appear"] != 0){
+
+            if (game_sound[round-1][all_question[i]["target"]] == e.target.innerHTML){
+
+                console.log("bonne réponse");
+
+            } 
+            else {
+
+                console.log("mauvaise réponse");
+
+            }
+        }
     }
-    
 });
