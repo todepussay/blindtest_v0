@@ -148,9 +148,13 @@ for($i = 0; $i < count(array_keys($question[0])); $i = $i + 2){
                 <div class="input-box" id="animation">
                     <ion-icon id="search-ico" name="search-outline"></ion-icon>
                     <input autocomplete="off" placeholder="Saisir votre proposition" type="search" id="search">
-                    <ion-icon id="del" name="close-outline"></ion-icon>
-                    <ion-icon id="volume-ico-on" name="volume-high-outline" onclick="change_volume()"></ion-icon>
-                    <ion-icon id="volume-ico-off"name="volume-mute-outline" onclick="change_volume()"></ion-icon>
+                    <div id="del">
+                        <ion-icon id="del" name="close-outline"></ion-icon>
+                    </div>
+                    <div id="volume-ico">
+                        <ion-icon id="volume-ico-on" name="volume-high-outline" onclick="change_volume()"></ion-icon>
+                        <ion-icon id="volume-ico-off"name="volume-mute-outline" onclick="change_volume()"></ion-icon>
+                    </div>
                 </div>
                 
                 <ul class="proposition" id="proposition">
@@ -164,14 +168,8 @@ for($i = 0; $i < count(array_keys($question[0])); $i = $i + 2){
         </div>
     </div>
 
-    <div class="sup">
-        <div id="sup_question">
 
-        </div>
-    </div>
-
-
-    <div id="del">
+    <div id="delete">
 
         <div id="origine">
 

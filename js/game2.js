@@ -34,7 +34,11 @@ let proposition = document.getElementById('proposition');
 
 let proposition_array = [];
 
+let score = 0;
+
 window.onload = function() {
+
+    search.focus();
 
     // Get all origine column
 
@@ -177,19 +181,44 @@ window.onload = function() {
             let span = document.createElement('span');
             span.id = 'question_' + all_question[i]["id_question"];
             span.className = "question";
-            span.innerHTML = all_question[i]["question"];
-
-            let span2 = document.createElement('span');
-            span2.id = "question_answer_" + all_question[i]["id_question"];
-            span2.className = "question";
+            span.innerHTML = all_question[i]["question"] + " ";
 
             let br = document.createElement('br');
 
             document.getElementById('question-box').appendChild(span);
-            document.getElementById('question-box').appendChild(span2);
             document.getElementById('question-box').appendChild(br);
         }
     }
+}
+
+function change_question(){
+
+    question_current++;
+
+    for (let i = 0; i < all_question.length; i++){
+
+        if (all_question[i]["level"] == question_current){
+
+            let span = document.createElement('span');
+            span.id = 'question_' + all_question[i]["id_question"];
+            span.className = "question";
+            span.innerHTML = all_question[i]["question"] + " ";
+
+            let br = document.createElement('br');
+
+            document.getElementById('question-box').appendChild(span);
+            document.getElementById('question-box').appendChild(br);
+        }
+
+    }
+
+}
+
+document.getElementById('del').onclick = function(){
+    search.value = "";
+    proposition.innerHTML = "";
+    proposition.style.display = "none";
+    search.focus();
 }
 
 search.addEventListener('keyup', function() {
@@ -248,17 +277,69 @@ proposition.addEventListener('click', function(e) {
     for (let i = 0; i < all_question.length; i++){
 
         if (all_question[i]["level"] == question_current && all_question[i]["appear"] != 0){
+            console.log(game_sound[round-1][all_question[i]["target"]])
 
             if (game_sound[round-1][all_question[i]["target"]] == e.target.innerHTML){
 
-                console.log("bonne réponse");
+                good_answer();
 
             } 
             else {
 
-                console.log("mauvaise réponse");
+                wrong_answer();
 
             }
         }
     }
 });
+
+function good_answer(){
+
+    for (let i = 0; i < all_question.length; i++){
+        if (all_question[i]["level"] == question_current){
+            document.getElementById('question_' + all_question[i]["id_question"]).innerHTML += game_sound[round-1][all_question[i]["target"]] + " ✅+" + all_question[i]["point"] + " ";
+            document.getElementById('question-box').appendChild(document.createElement('br'));
+            score += all_question[i]["point"];
+        }
+    }
+
+    document.getElementById('animation').style.border = "2px solid rgb(0, 172, 0)";
+    document.getElementById('animation').style.boxShadow = "0px 0px 5px 0px rgba(0, 172, 0, 0.75)";
+
+    let interval_good = setInterval(function(){
+        document.getElementById('animation').style.border = "2px solid rgb(255, 255, 255)";
+        document.getElementById('animation').style.boxShadow = "0px 0px 5px 0px rgba(255, 255, 255, 0.75)";
+        clearInterval(interval_good);
+    }, 400);
+
+    document.getElementById('score').innerHTML = score;
+
+    search.value = "";
+    proposition.innerHTML = "";
+    proposition.style.display = "none";
+    search.focus();
+
+    change_question();
+}
+
+function wrong_answer(){
+
+    for (let i = 0; i < all_question.length; i++){
+        if (all_question[i]["level"] == question_current && all_question[i]["change"] == 1){
+            document.getElementById('question_' + all_question[i]["id_question"]).innerHTML += "❌";
+            document.getElementById('question-box').appendChild(document.createElement('br'));
+        }
+    }
+
+    document.getElementById('animation').style.border = "2px solid rgb(198, 0, 0)";
+    document.getElementById('animation').style.animation = "shake 0.2s 2";
+    document.getElementById('animation').style.boxShadow = "0px 0px 5px 0px rgba(198, 0, 0, 0.75)";
+
+    let interval_wrong = setInterval(function(){
+        document.getElementById('animation').style.border = "2px solid rgb(255, 255, 255)";
+        document.getElementById('animation').style.boxShadow = "0px 0px 5px 0px rgba(255, 255, 255, 0.75)";
+        document.getElementById('animation').style.animation = "";
+        clearInterval(interval_wrong);
+    }, 400);
+
+}
