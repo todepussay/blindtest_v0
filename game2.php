@@ -105,7 +105,7 @@ for($i = 0; $i < count(array_keys($question[0])); $i = $i + 2){
 
     <?php require "header.php"; ?>
 
-    <!-- <div class="container-overlay">
+    <div class="container-overlay">
         <div id="begin" class="begin">
 
             <h2 id="title-begin">Le jeu va commencer ! <br> Attention le son peut être très fort selon le générique.</h2>
@@ -117,7 +117,7 @@ for($i = 0; $i < count(array_keys($question[0])); $i = $i + 2){
             <button class="btn" id="btn-begin">Commencer !</button>
 
         </div>
-    </div> -->
+    </div>
 
     <div class="container" id="container-game">
 
@@ -152,8 +152,8 @@ for($i = 0; $i < count(array_keys($question[0])); $i = $i + 2){
                         <ion-icon id="del" name="close-outline"></ion-icon>
                     </div>
                     <div id="volume-ico">
-                        <ion-icon id="volume-ico-on" name="volume-high-outline" onclick="change_volume()"></ion-icon>
-                        <ion-icon id="volume-ico-off"name="volume-mute-outline" onclick="change_volume()"></ion-icon>
+                        <ion-icon id="volume-ico-on" name="volume-high-outline"></ion-icon>
+                        <ion-icon id="volume-ico-off" name="volume-mute-outline"></ion-icon>
                     </div>
                 </div>
                 
@@ -170,6 +170,11 @@ for($i = 0; $i < count(array_keys($question[0])); $i = $i + 2){
 
 
     <div id="delete">
+
+        <div id="categorie">
+            <input type="hidden" id="categorie_id" value="<?= $categorie_id ?>">
+            <input type="hidden" id="categorie_name" value="<?= $categorie_name ?>">
+        </div>
 
         <div id="origine">
 
@@ -248,6 +253,17 @@ for($i = 0; $i < count(array_keys($question[0])); $i = $i + 2){
             <?php endfor; ?>
 
         </div>
+
+        <form id="form" action="endgame.php" method="post">
+            <input type="hidden" name="categorie" value="<?= $categorie_id ?>">
+            <input type="hidden" name="all" value="<?= $all ?>">
+            <input type="hidden" id="number" name="number" value="<?= $_POST['number'] ?>">
+            <input type="hidden" name="top100" value="<?php if($_POST['top100'] == 1 || $_POST['all'] == 1){echo 1;} else {echo 0;} ?>">
+            <input type="hidden" name="premier" id="premier_input" value="<?php if($_POST['premier'] == 1){echo 1;} else {echo 0;} ?>">
+            <input type="hidden" name="av2000" value="<?php if($_POST['av2000'] == 1 || $_POST['all'] == 1){echo 1;} else {echo 0;} ?>">
+            <input type="hidden" name="ap2000" value="<?php if($_POST['ap2000'] == 1 || $_POST['all'] == 1){echo 1;} else {echo 0;} ?>">
+            <input type="hidden" name="score" id="score_input" value="">
+        </form>
 
     </div>
     

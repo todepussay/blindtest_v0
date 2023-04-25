@@ -1,3 +1,6 @@
+let categorie_id;
+let categorie_name = "";
+
 let origine_column_number = document.getElementById('origine_column_number').value;
 let origine_column = [];
 
@@ -24,7 +27,7 @@ let all_question = [];
 
 let max_round = document.getElementById('game_sound_number').value;
 let game_sound = [];
-let round = 1;
+let round = 0;
 
 let question_current = 0;
 
@@ -36,9 +39,34 @@ let proposition_array = [];
 
 let score = 0;
 
+let skip = document.getElementById('skip');
+
+let timer = document.getElementById('time');
+let time = 30;
+
+let timer_begin = document.getElementById('time-begin');
+let time_begin = 3;
+
+let btn_begin = document.getElementById('btn-begin');
+
+let interval_game;
+let interval_begin;
+
+let volume_ico = document.getElementById('volume-ico');
+let volume_mute = 0;
+
+let audio;
+
 window.onload = function() {
 
     search.focus();
+
+    // Get categorie 
+
+    categorie_id = document.getElementById('categorie_id').value;
+    categorie_name = document.getElementById('categorie_name').value;
+
+    document.getElementById('categorie').remove();
 
     // Get all origine column
 
@@ -146,6 +174,8 @@ window.onload = function() {
             question_temp[question_column[j]] = document.getElementById('question_' + question_column[j] + '_' + i).value;
         }
 
+        question_temp["chance_utilise"] = 0;
+
         all_question.push(question_temp);
 
     }
@@ -176,42 +206,40 @@ window.onload = function() {
 
     // Print first question
 
-    for (let i = 0; i < all_question.length; i++){
-        if (all_question[i]["level"] == question_current){
-            let span = document.createElement('span');
-            span.id = 'question_' + all_question[i]["id_question"];
-            span.className = "question";
-            span.innerHTML = all_question[i]["question"] + " ";
-
-            let br = document.createElement('br');
-
-            document.getElementById('question-box').appendChild(span);
-            document.getElementById('question-box').appendChild(br);
-        }
-    }
+    first_question();
 }
 
 function change_question(){
 
-    question_current++;
+    let count = 0;
 
     for (let i = 0; i < all_question.length; i++){
-
-        if (all_question[i]["level"] == question_current){
-
-            let span = document.createElement('span');
-            span.id = 'question_' + all_question[i]["id_question"];
-            span.className = "question";
-            span.innerHTML = all_question[i]["question"] + " ";
-
-            let br = document.createElement('br');
-
-            document.getElementById('question-box').appendChild(span);
-            document.getElementById('question-box').appendChild(br);
+        if (all_question[i]["level"] <= question_current){
+            count++;
         }
-
     }
 
+    if (count < question_number){
+        
+        question_current++;
+
+        for (let i = 0; i < all_question.length; i++){
+    
+            if (all_question[i]["level"] == question_current){
+    
+                let span = document.createElement('span');
+                span.id = 'question_' + all_question[i]["id_question"];
+                span.className = "question";
+                span.innerHTML = all_question[i]["question"] + " ";
+    
+                let br = document.createElement('br');
+    
+                document.getElementById('question-box').appendChild(span);
+                document.getElementById('question-box').appendChild(br);
+            }
+    
+        }
+    }
 }
 
 document.getElementById('del').onclick = function(){
@@ -228,6 +256,28 @@ search.addEventListener('keyup', function() {
     let keyCode = event.keyCode;
 
     proposition_array = [];
+
+    if (keyCode == 13){
+
+        for (let i = 0; i < all_question.length; i++){
+
+            if (all_question[i]["level"] == question_current && all_question[i]["appear"] == 0){
+
+                if (search_value == game_sound[round-1][all_question[i]["target"]] && all_question[i]["chance_utilise"] != 1){
+
+                    good_answer(i);
+
+                } else {
+
+                    wrong_answer(i);
+
+                }
+
+            }
+
+        }
+
+    }
 
     if (search_value.length == 0){
         proposition.innerHTML = "";
@@ -277,30 +327,27 @@ proposition.addEventListener('click', function(e) {
     for (let i = 0; i < all_question.length; i++){
 
         if (all_question[i]["level"] == question_current && all_question[i]["appear"] != 0){
-            console.log(game_sound[round-1][all_question[i]["target"]])
 
-            if (game_sound[round-1][all_question[i]["target"]] == e.target.innerHTML){
+            if (game_sound[round-1][all_question[i]["target"]] == e.target.innerHTML && all_question[i]["chance_utilise"] != 1){
 
-                good_answer();
+                return good_answer(i);
 
-            } 
-            else {
+            } else {
 
-                wrong_answer();
+                return wrong_answer(i);
 
             }
         }
     }
 });
 
-function good_answer(){
+function good_answer(e){
 
-    for (let i = 0; i < all_question.length; i++){
-        if (all_question[i]["level"] == question_current){
-            document.getElementById('question_' + all_question[i]["id_question"]).innerHTML += game_sound[round-1][all_question[i]["target"]] + " ✅+" + all_question[i]["point"] + " ";
-            document.getElementById('question-box').appendChild(document.createElement('br'));
-            score += all_question[i]["point"];
-        }
+    
+    if (all_question[e]["level"] == question_current){
+        document.getElementById('question_' + all_question[e]["id_question"]).innerHTML += game_sound[round-1][all_question[e]["target"]] + " ✅+" + all_question[e]["point"] + " ";
+        score += parseInt(all_question[e]["point"]);
+        all_question[e]["chance_utilise"] = 1;
     }
 
     document.getElementById('animation').style.border = "2px solid rgb(0, 172, 0)";
@@ -322,13 +369,11 @@ function good_answer(){
     change_question();
 }
 
-function wrong_answer(){
+function wrong_answer(e){
 
-    for (let i = 0; i < all_question.length; i++){
-        if (all_question[i]["level"] == question_current && all_question[i]["change"] == 1){
-            document.getElementById('question_' + all_question[i]["id_question"]).innerHTML += "❌";
-            document.getElementById('question-box').appendChild(document.createElement('br'));
-        }
+    if (all_question[e]["level"] == question_current && all_question[e]["chance"] == 1 && all_question[e]["chance_utilise"] != 1){
+        document.getElementById('question_' + all_question[e]["id_question"]).innerHTML += "❌";
+        all_question[e]["chance_utilise"] = 1;
     }
 
     document.getElementById('animation').style.border = "2px solid rgb(198, 0, 0)";
@@ -343,3 +388,137 @@ function wrong_answer(){
     }, 400);
 
 }
+
+skip.addEventListener('click', function() {
+
+    if (time > 1){
+        time = 2;
+    }
+
+});
+
+function start_interval_game(){
+    time = 30;
+    timer.innerHTML = time;
+    audio = document.createElement('audio');
+    audio.setAttribute('src', categorie_name + "/" + game_sound[round-1]['id_sound'] + ".m4a");
+    if (volume_mute == 1){
+        audio.volume = 0;
+    }
+    audio.play();
+    interval_game = setInterval(function(){
+        if (time > 1){
+            time--;
+            if (time < 10){
+                time = "0" + time;
+            }
+            timer.innerHTML = time;
+        } else {
+            clearInterval(interval_game);
+            document.getElementById('begin').style.display = 'block';
+            document.getElementById('title-begin').innerHTML = "C'était l'opening n°" + game_sound[round-1]["number"] + " de " + game_sound[round-1]["name"] + ", " + game_sound[round-1]["title"] + " ! <br> Vous avez un score de " + score + " points !";
+            document.getElementById('btn-begin').innerHTML = "Continuer";
+            document.getElementById('btn-begin').style.display = "block";
+            document.getElementById('time-box-begin').style.display = "none";
+
+            if (round == max_round){
+                document.getElementById('btn-begin').innerHTML = "Terminer le jeu";
+            }
+
+            if (volume_mute == 0){
+                let interval_audio = setInterval(() => {
+                    audio.volume -= audio.volume * 0.1;
+                    if (audio.volume <= 0.05){
+                        clearInterval(interval_audio);
+                        audio.pause();
+                        audio.volume = 1;
+                    }
+                }, 100);
+            }
+        }
+        if (time == 25){
+            skip.style.display = 'block';
+            skip.style.animation = "opacity 0.5s 1";
+        }
+    }, 1000);
+}
+
+function stop_interval_game(){
+    clearInterval(interval_game);
+}
+
+function start_interval_begin(){
+    time_begin = "0" + 3;
+    timer_begin.innerHTML = time_begin;
+    interval_begin = setInterval(function(){
+        if (time_begin > 1){
+            time_begin--;
+            time_begin = "0" + time_begin;
+            timer_begin.innerHTML = time_begin;
+        } else {
+            clearInterval(interval_begin);
+            document.getElementById('begin').style.display = "none";
+            start_interval_game();
+        }
+    }, 1000)
+}
+
+function stop_interval_begin(){
+    clearInterval(interval_begin);
+}
+
+btn_begin.addEventListener('click', function() {
+    if (round == max_round){
+        document.getElementById('score_input').value = score;
+        document.getElementById('form').submit();
+    }
+    round++;
+    document.getElementById('number-progression').innerHTML = round;
+    document.getElementById('value').style.width = (round * 100) / max_round + "%";
+    document.getElementById('question-box').innerHTML = "";
+    question_current = 0;
+    search.value = "";
+    proposition.innerHTML = "";
+    proposition.style.display = "none";
+    search.focus();
+
+    first_question();
+
+    for (let i = 0; i < all_question.length; i++){
+        all_question[i]['chance_utilise'] = 0;
+    }
+
+    btn_begin.style.display = "none";
+    document.getElementById('time-box-begin').style.display = "block";
+    start_interval_begin();
+});
+
+function first_question(){
+    for (let i = 0; i < all_question.length; i++){
+        if (all_question[i]["level"] == question_current){
+            let span = document.createElement('span');
+            span.id = 'question_' + all_question[i]["id_question"];
+            span.className = "question";
+            span.innerHTML = all_question[i]["question"] + " ";
+
+            let br = document.createElement('br');
+
+            document.getElementById('question-box').appendChild(span);
+            document.getElementById('question-box').appendChild(br);
+        }
+    }
+}
+
+volume_ico.addEventListener('click', function() {
+    if (volume_mute == 0){
+        volume_mute = 1;
+        audio.volume = 0;
+        document.getElementById('volume-ico-on').style.display = "none";
+        document.getElementById('volume-ico-off').style.display = "block";
+    } else {
+        volume_mute = 0;
+        audio.volume = 1;
+        document.getElementById('volume-ico-on').style.display = "block";
+        document.getElementById('volume-ico-off').style.display = "none";
+    }
+});

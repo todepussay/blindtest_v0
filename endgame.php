@@ -31,7 +31,7 @@ $date .= $today['minutes'];
 
 if (!isset($_SESSION['id'])) {
 
-    $sql_select = "SELECT id_score_invite FROM score_invite WHERE invite_id = :invite_id AND categorie_id = :categorie_id AND score = :score AND len = :len AND parameters = :parameters AND date_score = :date_score";
+    $sql_select = "SELECT id_score_invite FROM score_invite WHERE invite_id = :invite_id AND categorie_id = :categorie_id AND score = :score AND len = :len AND parameters = :parameters";
     $sql_select = $connect->prepare($sql_select);
     $sql_select->bindParam(':invite_id', $_SESSION['invite']);
     $sql_select->bindParam(':categorie_id', $_POST['categorie']);
@@ -57,10 +57,11 @@ if (!isset($_SESSION['id'])) {
     }
 
     $sql_select->bindParam(':parameters', $parameters_select);
-    $sql_select->bindParam(':date_score', $date);
 
     $sql_select->execute();
     $result = $sql_select->fetchAll();
+
+    echo count($result); 
     
     if (count($result) == 0){
         

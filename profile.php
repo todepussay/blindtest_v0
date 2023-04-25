@@ -5,7 +5,7 @@ session_start();
 require('connect.php');
 
 if (isset($_SESSION['id'])) {
-    $sql = $connect->prepare('SELECT * FROM users WHERE id = :id');
+    $sql = $connect->prepare('SELECT * FROM users WHERE user_id = :id');
     $sql->bindValue(':id', $_SESSION['id']);
     $sql->execute();
     $table = $sql->fetchAll();

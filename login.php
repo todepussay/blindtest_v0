@@ -18,7 +18,7 @@ if (isset($_SESSION['id'])){
             $table = $sql->fetchAll();
 
             if (count($table) == 1 && password_verify($password, $table[0]['password'])) {
-                $_SESSION['id'] = $table[0]['id'];
+                $_SESSION['id'] = $table[0]['user_id'];
                 $_SESSION['username'] = $table[0]['username'];
                 $_SESSION['email'] = $table[0]['email'];
                 $_SESSION['admin'] = $table[0]['admin'];

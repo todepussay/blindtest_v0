@@ -21,7 +21,7 @@ $alternatif = $connect->prepare($alternatif);
 $alternatif->execute();
 $alternatif = $alternatif->fetchAll();
 
-$score_sql = "SELECT score.id_score as 'id', users.username as 'username', users.admin as 'admin' , categories.name as 'categorie', score.score as 'score', score.len as 'len', score.parameters as 'parameters', score.date_score as 'date' FROM score, users, categories WHERE score.user_id = users.id AND score.categorie_id = categories.id ORDER BY id DESC";
+$score_sql = "SELECT score.id_score as 'id', users.username as 'username', users.admin as 'admin' , categories.name as 'categorie', score.score as 'score', score.len as 'len', score.parameters as 'parameters', score.date_score as 'date' FROM score, users, categories WHERE score.user_id = users.user_id AND score.categorie_id = categories.id ORDER BY id DESC";
 $score = $connect->prepare($score_sql);
 $score->execute();
 $score = $score->fetchAll();
@@ -31,7 +31,7 @@ $score_invite = $connect->prepare($score_invite);
 $score_invite->execute();
 $score_invite = $score_invite->fetchAll();
 
-$proposition = "SELECT proposition.id as 'id', users.username as 'username', proposition.text as 'text', proposition.date as 'date' FROM proposition, users WHERE proposition.user_id = users.id";
+$proposition = "SELECT proposition.id as 'id', users.username as 'username', proposition.text as 'text', proposition.date as 'date' FROM proposition, users WHERE proposition.user_id = users.user_id";
 $proposition = $connect->prepare($proposition);
 $proposition->execute();
 $proposition = $proposition->fetchAll();
@@ -121,8 +121,8 @@ $proposition = $proposition->fetchAll();
                             <span class="<?php if($users[$i]['admin'] == 1){echo 'top100';} ?>" id="username"><?= $users[$i]['username'] ?></span>
                             <span id="email"><?= $users[$i]['email'] ?></span> 
                             <span>
-                                <a href="admin-user-modifier.php?id=<?= $users[$i]["id"] ?>">Modifier</a>
-                                <a href="admin-user-supprimer.php?id=<?= $users[$i]["id"] ?>">Supprimer</a>
+                                <a href="admin-user-modifier.php?id=<?= $users[$i]["user_id"] ?>">Modifier</a>
+                                <a href="admin-user-supprimer.php?id=<?= $users[$i]["user_id"] ?>">Supprimer</a>
                             </span>
                         </li>
                     <?php endfor; ?>
