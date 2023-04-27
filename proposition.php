@@ -48,7 +48,7 @@ if (isset($_POST['text']) && !empty($_POST['text'])) {
             <h1>Proposition de son</h1>
 
             <form action="" method="post" id="form-proposition">
-                <label for="text">Saisir la proposition de ce que vous voulez voir sur le site : </label><br>
+                <label for="text">Saisir la proposition de ce que vous voulez voir sur le site, ça peut-être un nouveau son, une fonctionnalité, une remarque ou autre : </label><br>
                 <textarea name="text" id="text" placeholder="Saisir ici" require></textarea><br>
                 <?php if(isset($resultat)): ?>
                     <p><?= $resultat ?></p>

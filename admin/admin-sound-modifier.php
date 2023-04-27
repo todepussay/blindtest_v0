@@ -2,7 +2,7 @@
 
 require 'admin-header.php';
 
-$sound = "SELECT * FROM sound WHERE id = :id";
+$sound = "SELECT * FROM sound WHERE id_sound = :id";
 $sound = $connect->prepare($sound);
 $sound->bindParam(':id', $_GET['id']);
 $sound->execute();
@@ -14,7 +14,7 @@ if (isset($_GET['name']) && isset($_GET['top100']) && isset($_GET['number'])) {
     $top100 = $_GET['top100'];
     $number = $_GET['number'];
 
-    $update = $connect->prepare("UPDATE sound SET title = :title, top100 = :top100, number = :number WHERE id = :id");
+    $update = $connect->prepare("UPDATE sound SET title = :title, top100 = :top100, number = :number WHERE id_sound = :id");
     $update->bindParam(':title', $name);
     $update->bindParam(':top100', $top100);
     $update->bindParam(':number', $number);

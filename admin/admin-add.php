@@ -33,7 +33,7 @@ if (isset($_POST['n']) && isset($_POST['origine_name'])){
             $insert_alternatif = "INSERT INTO alternatif (origine_id, name) VALUES (:origine_id, :name)";
             $insert_alternatif = $connect->prepare($insert_alternatif);
             $insert_alternatif->bindParam(':origine_id', $id);
-            $insert_alternatif->bindParam(':name', $_POST['alternatif_' . $i]);
+            $insert_alternatif->bindParam(':name', $_POST['title_alternatif_' . $i]);
             $insert_alternatif->execute();
 
         }
@@ -48,14 +48,14 @@ if (isset($_POST['n']) && isset($_POST['origine_name'])){
             $insert_sound->bindParam(':top100', $_POST['top100_' . $i]);
             $insert_sound->execute();
 
-            $id_sound = "SELECT id FROM sound WHERE origine_id = :origine_id AND title = :title AND number = :number";
+            $id_sound = "SELECT id_sound FROM sound WHERE origine_id = :origine_id AND title = :title AND number = :number";
             $id_sound = $connect->prepare($id_sound);
             $id_sound->bindParam(':origine_id', $id);
             $id_sound->bindParam(':title', $_POST['title_' . $i]);
             $id_sound->bindParam(':number', $i);
             $id_sound->execute();
             $id_sound = $id_sound->fetchAll();
-            $id_sound = $id_sound[0]['id'];
+            $id_sound = $id_sound[0]['id_sound'];
 
             
             $_FILES['file']["name"][$i-1] = $id_sound . ".m4a";

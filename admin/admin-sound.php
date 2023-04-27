@@ -46,9 +46,9 @@ $sound = $sound->fetchAll();
                 <?php for($i = 0; $i < count($sound); $i++): ?>
                     <li class="<?php if($sound[$i]['top100'] == 1){echo 'top100';} ?>">
                         <?= $sound[$i]['number'] ?>. <?= $sound[$i]['title'] ?> <br>
-                        <audio controls src="../opening/<?= $sound[$i]["id"] ?>.m4a"></audio><br>
-                        <a href="admin-sound-modifier.php?id=<?= $sound[$i]['id'] ?>&origine_id=<?= $origine['id'] ?>">Modifier</a>
-                        <a href="admin-sound-supprimer.php?id=<?= $sound[$i]['id'] ?>&origine_id=<?= $origine['id'] ?>">Supprimer</a>
+                        <audio controls src="../opening/<?= $sound[$i]["id_sound"] ?>.m4a"></audio><br>
+                        <a href="admin-sound-modifier.php?id=<?= $sound[$i]['id_sound'] ?>&origine_id=<?= $origine['id'] ?>">Modifier</a>
+                        <a href="admin-sound-supprimer.php?id=<?= $sound[$i]['id_sound'] ?>&origine_id=<?= $origine['id'] ?>">Supprimer</a>
                     </li>
                 <?php endfor; ?>
             </ul>

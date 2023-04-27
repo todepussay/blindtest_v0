@@ -35,7 +35,7 @@ $table = $sql->fetchAll();
 
             <h1>Choix du jeu</h1>
 
-            <form action="game2.php" method="post">
+            <form action="game.php" method="post">
 
                 <div class="input" id="input_categorie">
                     <label for="categorie">Choisissez une categorie :</label><br>

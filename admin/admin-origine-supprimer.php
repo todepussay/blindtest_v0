@@ -27,7 +27,7 @@ if (isset($_GET['yes'])) {
     $delete_origine->execute();
 
     for ($i = 0; $i < count($sound); $i++) {
-        unlink('../opening/' . $sound[$i]['id'] . '.m4a');
+        unlink('../opening/' . $sound[$i]['id_sound'] . '.m4a');
     }
     
     header('Location: admin.php');

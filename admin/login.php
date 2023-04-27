@@ -2,6 +2,10 @@
 
 session_start();
 
+if (isset($_SESSION['admin_user']) && isset($_SESSION['admin_password'])){
+    header('Location: admin.php');
+}
+
 if ($_SESSION['admin'] == 0 || !isset($_SESSION['id']) || !isset($_SESSION['admin']) || isset($_SESSION['invite']) || isset($_SESSION['admin_user'])) {
     header('Location: ../index.php');
 }

@@ -1,332 +1,525 @@
-let max_sound = document.getElementById('number').value;
-let input = document.getElementById('search');
-let max_title = document.getElementById('max').value;
+let categorie_id;
+let categorie_name = "";
+
+let origine_column_number = document.getElementById('origine_column_number').value;
+let origine_column = [];
+
+let origine_number = document.getElementById('origine_number').value;
+let all_origine = [];
+
+let sound_column_number = document.getElementById('sound_column_number').value;
+let sound_column = [];
+
+let sound_number = document.getElementById('sound_number').value;
+let all_sound = [];
+
+let alternatif_column_number = document.getElementById('alternatif_column_number').value;
+let alternatif_column = [];
+
+let alternatif_number = document.getElementById('alternatif_number').value;
+let all_alternatif = [];
+
+let question_column_number = document.getElementById('question_column_number').value;
+let question_column = [];
+
+let question_number = document.getElementById('question_number').value;
+let all_question = [];
+
+let max_round = document.getElementById('game_sound_number').value;
+let game_sound = [];
 let round = 0;
-let progression_bar = round / max_sound * 100;
-let title_array = [];
-let sound_array = [];
-let all_sound_array = [];
-let alternatif_array = [];
+
 let question_current = 0;
-let audio
+
+let search = document.getElementById('search');
+
+let proposition = document.getElementById('proposition');
+
+let proposition_array = [];
+
 let score = 0;
+
+let skip = document.getElementById('skip');
+
+let timer = document.getElementById('time');
+let time = 30;
+
+let timer_begin = document.getElementById('time-begin');
+let time_begin = 3;
+
+let btn_begin = document.getElementById('btn-begin');
+
+let interval_game;
+let interval_begin;
+
+let volume_ico = document.getElementById('volume-ico');
 let volume_mute = 0;
-let try_bonus1 = false;
-let try_bonus2 = false;
-let count;
 
-window.onload = function(){
-    document.getElementById('number-progression').innerHTML = round;
-    document.getElementById('value').style.width = progression_bar + '%';
+let audio;
 
-    for (let i = 1; i <= max_title; i++){
-        // title_array.push(document.getElementById('sound_proposition' + i).innerHTML);
-        let title_array_temp = [];
-        title_array_temp.push(i);
-        title_array_temp.push(document.getElementById('sound_proposition' + i).innerHTML);
-        title_array.push(title_array_temp);
+window.onload = function() {
+
+    search.focus();
+
+    // Get categorie 
+
+    categorie_id = document.getElementById('categorie_id').value;
+    categorie_name = document.getElementById('categorie_name').value;
+
+    document.getElementById('categorie').remove();
+
+    // Get all origine column
+
+    for (let i = 0; i < origine_column_number; i++) {
+        origine_column.push(document.getElementById('origine_column_' + i).value);
     }
-    document.getElementById('proposition').innerHTML = "";
-
-    for (let i = 0; i < max_sound; i++){
-        let liste_prepare = [];
-        liste_prepare.push(document.getElementById('sound_id' + i).value);
-        liste_prepare.push(document.getElementById('sound_origine' + i).value);
-        liste_prepare.push(document.getElementById('sound_title' + i).value);
-        liste_prepare.push(document.getElementById('sound_number' + i).value);
-        liste_prepare.push(document.getElementById('sound_origine_id' + i).value);
-        sound_array.push(liste_prepare);
-    }
-
-    for (let i = 0; i < document.getElementById('max_sound').value ; i++){
-        // all_sound_array.push(document.getElementById('all_sound_title' + i).value);
-        let all_sound_array_temp = [];
-        all_sound_array_temp.push(document.getElementById('all_sound_id' + i).value);
-        all_sound_array_temp.push(document.getElementById('all_sound_title' + i).value);
-        all_sound_array.push(all_sound_array_temp);
-    }
-
-    for (let i = 0; i < document.getElementById('max_alternatif').value ; i++){
-        let alternatif_array_temp = [];
-        alternatif_array_temp.push(document.getElementById('alternatif_id' + i).value);
-        alternatif_array_temp.push(document.getElementById('origine_id' + i).value);
-        alternatif_array_temp.push(document.getElementById('alternatif_name' + i).value);
-        alternatif_array.push(alternatif_array_temp);
-    }
-
-    document.getElementById('input-sup2').remove();
-
-    document.getElementById('input-sup').remove();
-
-    document.getElementById('input-sup3').remove();
-
-    console.log(sound_array);
-}
-
-function keyboard(){
-    if (input.value.length > 3 || question_current == 1){
-        document.getElementById('proposition').style.display = 'block';
-        let value = input.value.toLowerCase();
-        let result = 0;
-        document.getElementById('proposition').innerHTML = "";
-        let code = event.keyCode;
-        if (code == 13 && question_current == 1 && document.getElementById('premier_input').value == 0){
-            if (question_current == 1 && input.value == sound_array[round-1][3] && !try_bonus1 && !isNaN(input.value)){
-                good_answer();
-            } else {
-                document.getElementById('animation').style.border = "2px solid rgb(198, 0, 0)";
-                document.getElementById('animation').style.animation = "shake 0.2s 2";
-                document.getElementById('animation').style.boxShadow = "0px 0px 5px 0px rgba(198, 0, 0, 0.75)";
-                let interval_wrong = setInterval(function(){
-                    document.getElementById('animation').style.border = "2px solid rgb(255, 255, 255)";
-                    document.getElementById('animation').style.animation = "none";
-                    document.getElementById('animation').style.boxShadow = "0px 0px 5px 0px rgba(255, 255, 255, 0.75)";
-                    clearInterval(interval_wrong);
-                }, 400);
-                if (document.getElementById('answer_number').innerHTML == ""){
-                    document.getElementById('answer_number').innerHTML = "❌";
-                    try_bonus1 = true;
-                }
-            }
-        }
-        if (question_current == 0){
-            let proposition_temp = [];
-            for (let i = 0; i < max_title; i++){
-                if (title_array[i][1].toLowerCase().includes(value)){
-                    let li_temp = document.createElement('li');
-                    li_temp.setAttribute('onclick', "li_proposition(`"+title_array[i][0]+"`)");
-                    li_temp.innerHTML = title_array[i][1];
-                    document.getElementById('proposition').appendChild(li_temp);
-                    proposition_temp.push(title_array[i][0]);
-                    result++;
-                }
-            }
-            for (let i = 0; i < alternatif_array.length; i++){
-                if (alternatif_array[i][2].toLowerCase().includes(value) && !proposition_temp.includes(title_array[alternatif_array[i][1]-1][0])){
-                    let li_temp = document.createElement('li');
-                    li_temp.setAttribute('onclick', "li_proposition(`"+title_array[alternatif_array[i][1]-1][0]+"`)");
-                    li_temp.innerHTML = title_array[alternatif_array[i][1]-1][1];
-                    document.getElementById('proposition').appendChild(li_temp);
-                    result++;
-                }
-            }
-        }
-        if (question_current == 1 && input.value.length >= 2){
-            for (let i = 0; i < all_sound_array.length; i++){
-                if (all_sound_array[i][1].toLowerCase().includes(value)){
-                    let li_temp = document.createElement('li');
-                    li_temp.setAttribute('onclick', "li_proposition(`"+all_sound_array[i][0]+"`)");
-                    li_temp.innerHTML = all_sound_array[i][1];
-                    document.getElementById('proposition').appendChild(li_temp);
-                    result++;
-                }
-            }
-        }
-        if (result == 0){
-            document.getElementById('proposition').style.display = 'none';
-        }
-    } else {
-        document.getElementById('proposition').innerHTML = "";
-        document.getElementById('proposition').style.display = 'none';
-    }
-}
-
-function li_proposition(valeur){
-    if (question_current == 0){
-        input.value = title_array[valeur-1][1];
-    } else {
-        input.value = all_sound_array[valeur-1][1];
-    }
-    if (valeur == sound_array[round-1][4] && question_current == 0 || (valeur == sound_array[round-1][0] && question_current == 1 && !try_bonus2)){
-        good_answer();
-    } else {
-        document.getElementById('animation').style.border = "2px solid rgb(198, 0, 0)";
-        document.getElementById('animation').style.animation = "shake 0.2s 2";
-        document.getElementById('animation').style.boxShadow = "0px 0px 5px 0px rgba(198, 0, 0, 0.75)";
-        let interval_wrong = setInterval(function(){
-            document.getElementById('animation').style.border = "2px solid rgb(255, 255, 255)";
-            document.getElementById('animation').style.animation = "none";
-            document.getElementById('animation').style.boxShadow = "0px 0px 5px 0px rgba(255, 255, 255, 0.75)";
-            clearInterval(interval_wrong);
-        }, 400);
-        if (question_current == 1){
-            if (document.getElementById('answer_title').innerHTML == ""){
-                document.getElementById('answer_title').innerHTML = "❌";
-                try_bonus2 = true;
-            }
-        }
-    }
-    input.focus();
-}
-
-function good_answer(){
-    document.getElementById('animation').style.border = "2px solid rgb(0, 255, 0)";
-    document.getElementById('animation').style.boxShadow = "0px 0px 5px 0px rgba(0, 255, 0, 0.75)";
     
+    // Get all origine
+
+    for (let i = 0; i < origine_number; i++) {
+        
+        let origine_temp = {};
+
+        for (let j = 0; j < origine_column_number; j++) {
+            origine_temp[origine_column[j]] = document.getElementById('origine_' + origine_column[j] + '_' + i).value;
+        }
+
+        all_origine.push(origine_temp);
+    
+    }
+
+    document.getElementById('origine').remove();
+
+    // console.log(all_origine);
+
+
+    // Get all alternatif column
+
+    for (let i = 0; i < alternatif_column_number; i++) {
+        alternatif_column.push(document.getElementById('alternatif_column_' + i).value);
+    }
+
+    // Get all alternatif
+
+    for (let i = 0; i < alternatif_number; i++) {
+
+        let alternatif_temp = {};
+
+        for (let j = 0; j < alternatif_column_number; j++) {
+            alternatif_temp[alternatif_column[j]] = document.getElementById('alternatif_' + alternatif_column[j] + '_' + i).value;
+        }
+
+        all_alternatif.push(alternatif_temp);
+
+    }
+
+    document.getElementById('alternatif').remove();
+
+    // console.log(all_alternatif);
+
+    // Get all sound column
+
+    for (let i = 0; i < sound_column_number; i++) {
+        sound_column.push(document.getElementById('sound_column_' + i).value);
+    }
+
+    // Get all sound
+
+    for (let i = 0; i < sound_number; i++) {
+
+        let sound_temp = {};
+
+        for (let j = 0; j < sound_column_number; j++) {
+            sound_temp[sound_column[j]] = document.getElementById('sound_' + sound_column[j] + '_' + i).value;
+        }
+
+        for (let j = 0; j < all_origine.length; j++) {
+            if (all_origine[j]["id"] == sound_temp["origine_id"]){
+                for (let k = 0; k < origine_column_number; k++) {
+                    sound_temp[origine_column[k]] = all_origine[j][origine_column[k]];
+                }
+            }
+        }
+
+        sound_temp["alternatif"] = [];
+
+        for (let j = 0; j < all_alternatif.length; j++) {
+            if (all_alternatif[j]["origine_id"] == sound_temp["id"]){
+                sound_temp["alternatif"].push(all_alternatif[j]["name"]);
+            }
+        }
+
+        all_sound.push(sound_temp);
+
+    }
+
+    document.getElementById('sound').remove();
+
+    // console.log(all_sound);
+
+
+    // Get all question column
+
+    for (let i = 0; i < question_column_number; i++) {
+        question_column.push(document.getElementById('question_column_' + i).value);
+    }
+
+    // Get all question
+
+    for (let i = 0; i < question_number; i++) {
+
+        let question_temp = {};
+
+        for (let j = 0; j < question_column_number; j++) {
+            question_temp[question_column[j]] = document.getElementById('question_' + question_column[j] + '_' + i).value;
+        }
+
+        question_temp["chance_utilise"] = 0;
+
+        all_question.push(question_temp);
+
+    }
+
+    document.getElementById('question').remove();
+
+    // console.log(all_question);
+
+    // Get all game sound
+
+    for (let i = 0; i < max_round; i++) {
+
+        let game_sound_id = document.getElementById('game_sound_' + i).value;
+
+        for (let j = 0; j < all_sound.length; j++) {
+
+            if (all_sound[j]["id_sound"] == game_sound_id){
+
+                game_sound.push(all_sound[j]);
+
+            }
+        }
+    }
+
+    // document.getElementById('game_sound').remove();
+
+    console.log(game_sound);
+
+    // Print first question
+
+    first_question();
+}
+
+function change_question(){
+
+    let count = 0;
+
+    for (let i = 0; i < all_question.length; i++){
+        if (all_question[i]["level"] <= question_current){
+            count++;
+        }
+    }
+
+    if (count < question_number){
+        
+        question_current++;
+
+        for (let i = 0; i < all_question.length; i++){
+    
+            if (all_question[i]["level"] == question_current){
+    
+                let span = document.createElement('span');
+                span.id = 'question_' + all_question[i]["id_question"];
+                span.className = "question";
+                span.innerHTML = all_question[i]["question"] + " ";
+    
+                let br = document.createElement('br');
+    
+                document.getElementById('question-box').appendChild(span);
+                document.getElementById('question-box').appendChild(br);
+            }
+    
+        }
+    }
+}
+
+document.getElementById('del').onclick = function(){
+    search.value = "";
+    proposition.innerHTML = "";
+    proposition.style.display = "none";
+    search.focus();
+}
+
+search.addEventListener('keyup', function() {
+    
+    let search_value = search.value.toLowerCase();
+
+    let keyCode = event.keyCode;
+
+    proposition_array = [];
+
+    if (keyCode == 13){
+
+        for (let i = 0; i < all_question.length; i++){
+
+            if (all_question[i]["level"] == question_current && all_question[i]["appear"] == 0){
+
+                if (search_value == game_sound[round-1][all_question[i]["target"]] && all_question[i]["chance_utilise"] != 1){
+
+                    good_answer(i);
+
+                } else {
+
+                    wrong_answer(i);
+
+                }
+
+            }
+
+        }
+
+    }
+
+    if (search_value.length == 0){
+        proposition.innerHTML = "";
+        proposition.style.display = "none";
+    }
+    else {
+
+        for (let i = 0; i < all_question.length; i++){
+            if (all_question[i]["level"] == question_current && all_question[i]["appear"] != 0 && search_value.length > all_question[i]["appear"]){
+                        
+                for (j = 0; j < all_sound.length; j++){
+
+                    let value = all_sound[j][all_question[i]["target"]];
+
+                    if (value.toLowerCase().includes(search_value) && !proposition_array.includes(all_sound[j][all_question[i]["target"]])){
+
+                        proposition_array.push(all_sound[j][all_question[i]["target"]]);
+                    }
+                }
+            }
+        }
+
+        proposition.innerHTML = "";
+
+        if (proposition_array.length == 0){
+            proposition.style.display = "none";
+        } 
+        else {
+            proposition.style.display = "block";
+
+            for (let i = 0; i < proposition_array.length; i++){
+
+                let li = document.createElement('li');
+                li.className = "proposition_li";
+                proposition.appendChild(li);
+                li.innerHTML = proposition_array[i];
+
+            }
+        }
+    } 
+});
+
+proposition.addEventListener('click', function(e) {
+
+    search.value = e.target.innerHTML;
+
+    for (let i = 0; i < all_question.length; i++){
+
+        if (all_question[i]["level"] == question_current && all_question[i]["appear"] != 0){
+
+            if (game_sound[round-1][all_question[i]["target"]] == e.target.innerHTML && all_question[i]["chance_utilise"] != 1){
+
+                return good_answer(i);
+
+            } else {
+
+                return wrong_answer(i);
+
+            }
+        }
+    }
+});
+
+function good_answer(e){
+
+    
+    if (all_question[e]["level"] == question_current){
+        document.getElementById('question_' + all_question[e]["id_question"]).innerHTML += game_sound[round-1][all_question[e]["target"]] + " ✅+" + all_question[e]["point"] + " ";
+        score += parseInt(all_question[e]["point"]);
+        all_question[e]["chance_utilise"] = 1;
+    }
+
+    document.getElementById('animation').style.border = "2px solid rgb(0, 172, 0)";
+    document.getElementById('animation').style.boxShadow = "0px 0px 5px 0px rgba(0, 172, 0, 0.75)";
+
     let interval_good = setInterval(function(){
         document.getElementById('animation').style.border = "2px solid rgb(255, 255, 255)";
         document.getElementById('animation').style.boxShadow = "0px 0px 5px 0px rgba(255, 255, 255, 0.75)";
         clearInterval(interval_good);
     }, 400);
-    if (question_current == 0){
-        document.getElementById('answer_origine').innerHTML = sound_array[round-1][1] + " ✅ +1";
-        score++;
-        input.value = "";
-        document.getElementById('proposition').innerHTML = "";
-        document.getElementById('proposition').style.display = 'none';
-        if (document.getElementById('premier_input').value == 0){
-            document.getElementById('question-bonus1').style.display = 'block';
-        }
-        document.getElementById('question-bonus2').style.display = 'block';
-        input.focus();
-        question_current++;
-    }
-    if (question_current == 1 && input.value == sound_array[round-1][3] && try_bonus1 == false){
-        document.getElementById('answer_number').innerHTML = sound_array[round-1][3] + " ✅ +2";
-        score += 2;
-        input.value = "";
-        document.getElementById('proposition').innerHTML = "";
-        input.focus();
-        document.getElementById('proposition').style.display = 'none';
-    }
-    if (question_current == 1 && input.value == sound_array[round-1][2] && try_bonus2 == false){    
-        document.getElementById('answer_title').innerHTML = sound_array[round-1][2] + " ✅ +2";
-        score += 2;
-        input.value = "";
-        document.getElementById('proposition').innerHTML = "";
-        input.focus();
-        document.getElementById('proposition').style.display = 'none';
-    }
+
     document.getElementById('score').innerHTML = score;
+
+    search.value = "";
+    proposition.innerHTML = "";
+    proposition.style.display = "none";
+    search.focus();
+
+    change_question();
 }
 
-function startInterval() {
-    
-    count = 30;
-    const interval = setInterval(() => {
-        count--;
-        if (count == 25){
-            document.getElementById('skip').style.display = 'block';
-            document.getElementById('skip').style.animation = "opacity 0.5s 1";
-        }
-        if (count < 10){
-            document.getElementById('time').innerHTML = "0" + count;
-        } else {
-            document.getElementById('time').innerHTML = count;
-        }
-        if (count == 0) {
-            clearInterval(interval);
-            document.getElementById('title-begin').innerHTML = "C'était l'opening n°"+ sound_array[round-1][3] + " de " + sound_array[round-1][1] + ", " + sound_array[round-1][2] + " ! <br> Vous avez un score de " + score + " points !";
-            if (round <= max_sound){
-                document.getElementById('search').disabled = true;
-                document.getElementById('time-box-begin').style.display = 'none';
-                document.getElementById('btn-begin').style.display = 'block';
-                document.getElementById('time-begin').innerHTML = "03";
-                document.getElementById('time').innerHTML = "30";
-                document.getElementById('btn-begin').innerHTML = "Continuer";
-                document.getElementById('container-overlay').style.display = 'block';
-                document.getElementById('search').value = "";
-                document.getElementById('proposition').innerHTML = "";
-                document.getElementById('proposition').style.display = 'none';
-                document.getElementById('search-ico').style.zIndex = '-1';
-                document.getElementById('volume-ico-on').style.zIndex = "-1";
-                document.getElementById('volume-ico-off').style.zIndex = "-1";
-                document.getElementById('del').style.zIndex = '-1';
-                if (round >= max_sound){
-                    document.getElementById('btn-begin').innerHTML = "Terminer";
-                    document.getElementById('title-begin').innerHTML = "Fin du jeu ! <br><br>" + document.getElementById('title-begin').innerHTML;
-                }
-                if (volume_mute == 0){
-                    let interval_audio = setInterval(() => {
-                        audio.volume -= audio.volume * 0.1;
-                        if (audio.volume <= 0.05){
-                            clearInterval(interval_audio);
-                            audio.pause();
-                            audio.volume = 1;
-                        }
-                    }, 100);
-                }
-                
+function wrong_answer(e){
+
+    if (all_question[e]["level"] == question_current && all_question[e]["chance"] == 1 && all_question[e]["chance_utilise"] != 1){
+        document.getElementById('question_' + all_question[e]["id_question"]).innerHTML += "❌";
+        all_question[e]["chance_utilise"] = 1;
+    }
+
+    document.getElementById('animation').style.border = "2px solid rgb(198, 0, 0)";
+    document.getElementById('animation').style.animation = "shake 0.2s 2";
+    document.getElementById('animation').style.boxShadow = "0px 0px 5px 0px rgba(198, 0, 0, 0.75)";
+
+    let interval_wrong = setInterval(function(){
+        document.getElementById('animation').style.border = "2px solid rgb(255, 255, 255)";
+        document.getElementById('animation').style.boxShadow = "0px 0px 5px 0px rgba(255, 255, 255, 0.75)";
+        document.getElementById('animation').style.animation = "";
+        clearInterval(interval_wrong);
+    }, 400);
+
+}
+
+skip.addEventListener('click', function() {
+
+    if (time > 1){
+        time = 2;
+    }
+
+});
+
+function start_interval_game(){
+    time = 30;
+    timer.innerHTML = time;
+    audio = document.createElement('audio');
+    audio.setAttribute('src', categorie_name + "/" + game_sound[round-1]['id_sound'] + ".m4a");
+    if (volume_mute == 1){
+        audio.volume = 0;
+    }
+    audio.play();
+    interval_game = setInterval(function(){
+        if (time > 1){
+            time--;
+            if (time < 10){
+                time = "0" + time;
             }
+            timer.innerHTML = time;
+        } else {
+            clearInterval(interval_game);
+            document.getElementById('begin').style.display = 'block';
+            document.getElementById('title-begin').innerHTML = "C'était l'opening n°" + game_sound[round-1]["number"] + " de " + game_sound[round-1]["name"] + ", " + game_sound[round-1]["title"] + " ! <br> Vous avez un score de " + score + " points !";
+            document.getElementById('btn-begin').innerHTML = "Continuer";
+            document.getElementById('btn-begin').style.display = "block";
+            document.getElementById('time-box-begin').style.display = "none";
+
+            if (round == max_round){
+                document.getElementById('btn-begin').innerHTML = "Terminer le jeu";
+            }
+
+            if (volume_mute == 0){
+                let interval_audio = setInterval(() => {
+                    audio.volume -= audio.volume * 0.1;
+                    if (audio.volume <= 0.05){
+                        clearInterval(interval_audio);
+                        audio.pause();
+                        audio.volume = 1;
+                    }
+                }, 100);
+            }
+        }
+        if (time == 25){
+            skip.style.display = 'block';
+            skip.style.animation = "opacity 0.5s 1";
         }
     }, 1000);
 }
 
-document.getElementById('btn-begin').onclick = function() {
-    document.getElementById('btn-begin').style.display = 'none';
-    document.getElementById('time-box-begin').style.display = 'block';
-    let count_begin = 3;
-    let interval_begin = setInterval(() => {
-        count_begin--;
-        if (count_begin == 0){
+function stop_interval_game(){
+    clearInterval(interval_game);
+}
+
+function start_interval_begin(){
+    time_begin = "0" + 3;
+    timer_begin.innerHTML = time_begin;
+    interval_begin = setInterval(function(){
+        if (time_begin > 1){
+            time_begin--;
+            time_begin = "0" + time_begin;
+            timer_begin.innerHTML = time_begin;
+        } else {
             clearInterval(interval_begin);
-            question_current = 0;
-            document.getElementById('search').disabled = false;
-            document.getElementById('container-overlay').style.display = 'none';
-            document.getElementById('search-ico').style.zIndex = '1';
-            document.getElementById('volume-ico-on').style.zIndex = "1";
-            document.getElementById('volume-ico-off').style.zIndex = "1";
-            document.getElementById('skip').style.display = 'none';
-            document.getElementById('skip').style.animation = "none";
-            try_bonus1 = false;
-            try_bonus2 = false;
-            document.getElementById('del').style.zIndex = '1';
-            document.getElementById('answer_origine').innerHTML = "";
-            document.getElementById('answer_title').innerHTML = "";
-            if (document.getElementById('premier_input').value == 0){
-                document.getElementById('answer_number').innerHTML = "";
-                document.getElementById('question-bonus1').style.display = "none";
-            }
-            document.getElementById('question-bonus2').style.display = "none";
-            round++;
-            if (round > max_sound){
-                document.getElementById('score_input').value = score;
-                document.getElementById('form').submit();
-            }
-            document.getElementById('number-progression').innerHTML = round;
-            progression_bar = round / max_sound * 100;
-            document.getElementById('value').style.width = progression_bar + '%';
-            audio = document.createElement('audio');
-            audio.setAttribute('src', "opening/" + sound_array[round-1][0] + '.m4a');
-            if (volume_mute == 1){
-                audio.volume = 0;
-            }
-            audio.play();
-            startInterval();
-            input.focus();
-        } else {
-            document.getElementById('time-begin').innerHTML = "0" + count_begin;
+            document.getElementById('begin').style.display = "none";
+            start_interval_game();
         }
-    }, 1000);
+    }, 1000)
 }
 
-function change_volume() {
+function stop_interval_begin(){
+    clearInterval(interval_begin);
+}
+
+btn_begin.addEventListener('click', function() {
+    if (round == max_round){
+        document.getElementById('score_input').value = score;
+        document.getElementById('form').submit();
+    }
+    round++;
+    document.getElementById('number-progression').innerHTML = round;
+    document.getElementById('value').style.width = (round * 100) / max_round + "%";
+    document.getElementById('question-box').innerHTML = "";
+    question_current = 0;
+    search.value = "";
+    proposition.innerHTML = "";
+    proposition.style.display = "none";
+    skip.style.display = 'none';
+    search.focus();
+
+    first_question();
+
+    for (let i = 0; i < all_question.length; i++){
+        all_question[i]['chance_utilise'] = 0;
+    }
+
+    btn_begin.style.display = "none";
+    document.getElementById('time-box-begin').style.display = "block";
+    start_interval_begin();
+});
+
+function first_question(){
+    for (let i = 0; i < all_question.length; i++){
+        if (all_question[i]["level"] == question_current){
+            let span = document.createElement('span');
+            span.id = 'question_' + all_question[i]["id_question"];
+            span.className = "question";
+            span.innerHTML = all_question[i]["question"] + " ";
+
+            let br = document.createElement('br');
+
+            document.getElementById('question-box').appendChild(span);
+            document.getElementById('question-box').appendChild(br);
+        }
+    }
+}
+
+volume_ico.addEventListener('click', function() {
     if (volume_mute == 0){
-        console.log('mute');
-        document.getElementById('volume-ico-on').style.display = 'none';
-        document.getElementById('volume-ico-off').style.display = 'block';
         volume_mute = 1;
         audio.volume = 0;
+        document.getElementById('volume-ico-on').style.display = "none";
+        document.getElementById('volume-ico-off').style.display = "block";
     } else {
-        if (volume_mute == 1){
-            console.log('unmute');
-            document.getElementById('volume-ico-off').style.display = 'none';
-            document.getElementById('volume-ico-on').style.display = 'block';
-            volume_mute = 0;
-            audio.volume = 1;
-        }
+        volume_mute = 0;
+        audio.volume = 1;
+        document.getElementById('volume-ico-on').style.display = "block";
+        document.getElementById('volume-ico-off').style.display = "none";
     }
-}
-
-document.getElementById('skip').onclick = function(){
-    if (count > 2){
-        count = 2;
-    }
-}
-
-document.getElementById('del').onclick = function(){
-    document.getElementById('search').value = '';
-    input.focus();
-    document.getElementById('proposition').innerHTML = '';
-    document.getElementById('proposition').style.display = 'none';
-}
+});

@@ -30,16 +30,13 @@ $table = $sql->fetchAll();
             <p>
                 Tout d'abord, vous allez avoir le choix du mode de jeu selon plusieurs critères sur la page <a href="index.php">Accueil</a>. <br>
                 Selon la catégorie que vous choisissez, vous allez avoir différentes musiques à deviner. <br>
-                Vous avez le choix entre <?=count($table) + 1;?> catégories : Tout <?php foreach($table as $category){echo " - " . ucfirst($category['name']);} ?> <br>
+                Pour le moment, il y a que la catégorie Opening <br>
                 <br><br>
-                La catégorie "Tout" vous permet de jouer à toutes les catégories suivantes. <br>
                 La catégorie "Opening" vous permet de jouer les génériques d'animés. <br>
                 <br><br>
-                Pour chaque catégorie, vous avez différent paramétre de personnalisation. <br>
-                <br><br>
-                Pendant le jeu, vous allez avoir une musique qui sera jouer. Vous avez 20 secondes pour répondre aux questions. <br>
-                Pour répondre, vous allez avoir un champ de saisie, entrez votre réponse et sélectionnez votre réponse dans la liste déroulante. <br>
-                Les questions dépendent des catégories mais resterons toujours les mêmes. <br>
+                Pendant le jeu, vous allez avoir une musique qui sera jouée. Vous avez 30 secondes pour répondre aux questions. <br>
+                Pour répondre, vous allez avoir un champ de saisie, entrez votre réponse et sélectionnez votre réponse dans la liste déroulante ou faites "Entrer". <br>
+                Les questions dépendent des catégories. <br>
                 <br><br>
                 Le score est défini selon la difficulté de la question. <br>
             </p>

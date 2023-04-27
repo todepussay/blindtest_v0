@@ -30,23 +30,23 @@ if (isset($_SESSION['id'])){
                     $sql_score->execute();
                     $score_temp = $sql_score->fetchAll();
 
-                    var_dump($score_temp);
+                    // var_dump($score_temp);
 
                     if (count($score_temp) > 0){
                         for ($i = 0; $i < count($score_temp); $i++){
-                            $sql_inject = "INSERT INTO score (user_id, categorie_id, score, len, parameters, date) VALUES (:user_id, :categorie_id, :score, :len, :parameters, :date)";
+                            $sql_inject = "INSERT INTO score (user_id, categorie_id, score, len, parameters, date_score) VALUES (:user_id, :categorie_id, :score, :len, :parameters, :date_score)";
                             $sql_inject = $connect->prepare($sql_inject);
                             $sql_inject->bindParam(":user_id", $_SESSION['id']);
                             $sql_inject->bindParam(":categorie_id", $score_temp[$i]["categorie_id"]);
                             $sql_inject->bindParam(":score", $score_temp[$i]["score"]);
                             $sql_inject->bindParam(":len", $score_temp[$i]["len"]);
                             $sql_inject->bindParam(":parameters", $score_temp[$i]["parameters"]);
-                            $sql_inject->bindParam(":date", $score_temp[$i]["date"]);
+                            $sql_inject->bindParam(":date_score", $score_temp[$i]["date_score"]);
                             $sql_inject->execute();
 
-                            $sql_delete = "DELETE FROM score_invite WHERE id_score_invite = :id LIMIT 1";
+                            $sql_delete = "DELETE FROM score_invite WHERE id_score_invite = :id";
                             $sql_delete = $connect->prepare($sql_delete);
-                            $sql_delete->bindParam(":id", $score_temp[$i]["id"]);
+                            $sql_delete->bindParam(":id", $score_temp[$i]["id_score_invite"]);
                             $sql_delete->execute();
                         }
                     }

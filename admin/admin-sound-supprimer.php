@@ -2,7 +2,7 @@
 
 require 'admin-header.php';
 
-$sound = "SELECT * FROM sound WHERE id = :id";
+$sound = "SELECT * FROM sound WHERE id_sound = :id";
 $sound = $connect->prepare($sound);
 $sound->bindParam(':id', $_GET['id']);
 $sound->execute();
@@ -10,7 +10,7 @@ $sound = $sound->fetchAll();
 $sound = $sound[0];
 
 if (isset($_GET['yes'])) {
-    $delete = "DELETE FROM sound WHERE id = :id LIMIT 1";
+    $delete = "DELETE FROM sound WHERE id_sound = :id LIMIT 1";
     $delete = $connect->prepare($delete);
     $delete->bindParam(':id', $_GET['id']);
     $delete->execute();
